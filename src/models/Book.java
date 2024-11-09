@@ -38,7 +38,7 @@ public class Book {
         System.out.println("Name: " + this.getName());
         System.out.println("Author: " + this.getAuthor());
         System.out.println("Genre: " + this.getGenre());
-        System.out.println("Published Year: " + this.getPublish());
+        System.out.println("Published Year: " + this.getPublishYear());
         System.out.println("Status: " + this.getStatus());
 
     }
@@ -122,7 +122,7 @@ public class Book {
     /**
      * @return the publishYear
      */
-    public int getPublish() {
+    public int getPublishYear() {
         return publishYear;
     }
 

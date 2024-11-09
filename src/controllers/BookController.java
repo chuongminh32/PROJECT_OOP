@@ -54,7 +54,7 @@ public class BookController {
         prsm.setString(2, b.getName());
         prsm.setString(3, b.getAuthor());
         prsm.setString(4, b.getGenre());
-        prsm.setInt(5, b.getPublish());
+        prsm.setInt(5, b.getPublishYear());
         prsm.setBoolean(6, b.getStatus());
 
         // thực thi update dữ liệu
@@ -120,7 +120,7 @@ public class BookController {
             prsm.setString(1, newBook.getName());
             prsm.setString(2, newBook.getAuthor());
             prsm.setString(3, newBook.getGenre());
-            prsm.setInt(4, newBook.getPublish());
+            prsm.setInt(4, newBook.getPublishYear());
             prsm.setBoolean(5, newBook.getStatus());
             prsm.setString(6, newBook.getBookID());
 

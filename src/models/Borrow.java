@@ -1,5 +1,5 @@
 package models;
 
-public class Loan {
+public class Borrow {
     
 }

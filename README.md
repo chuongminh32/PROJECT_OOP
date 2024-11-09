@@ -11,18 +11,18 @@ library_management_app/
 │   ├── models/
 │   │   ├── Book.java             # Model class for books
 │   │   ├── Member.java           # Model class for members
-│   │   ├── Loan.java             # Model class for loans
+│   │   ├── Borrow.java             # Model class for borrow [trang thai muon tra]
 │   │   └── Staff.java            # Model class for staff
 │   ├── views/
 │   │   ├── MainFrame.java        # Main window of the application
 │   │   ├── BookPanel.java        # Interface for managing books
 │   │   ├── MemberPanel.java      # Interface for managing members
-│   │   ├── LoanPanel.java        # Interface for managing loans
+│   │   ├── BorrowPanel.java        # Interface for managing borrow
 │   │   └── StaffPanel.java       # Interface for managing staff
 │   ├── controllers/
 │   │   ├── BookController.java   # Controller logic for managing books
 │   │   ├── MemberController.java # Controller logic for managing members
-│   │   ├── LoanController.java   # Controller logic for managing loans
+│   │   ├── BorrowController.java   # Controller logic for managing borrow
 │   │   └── StaffController.java  # Controller logic for managing staff
 │   ├── utils/
 │   │   └── DatabaseConnection.java # Database connection utility
@@ -33,7 +33,7 @@ library_management_app/
 ## Task Assignment
 
 ### Member 1: Controller Logic and Database Connection
-- **controllers/**: Develop controller classes to handle logic for managing books, members, loans, and staff.
+- **controllers/**: Develop controller classes to handle logic for managing books, members, borrow, and staff.
     - `BookController.java`
     - `MemberController.java`
     - `LoanController.java`
@@ -50,7 +50,7 @@ library_management_app/
     - `StaffPanel.java`
 
 ### Member 3: Data Models and Main Entry Point
-- **models/**: Design and build data model classes for books, members, loans, and staff.
+- **models/**: Design and build data model classes for books, members, borrow, and staff.
     - `Book.java`
     - `Member.java`
     - `Loan.java`

@@ -9,11 +9,11 @@ import controllers.MemberController;
 import gui.MemberManage;
 
 
-public class HomePage extends JFrame {
+public class HomePageAdmin extends JFrame {
     private JButton manageBooksButton, manageUsersButton;
     private MemberController memberController;
 
-    public HomePage(String username) {
+    public HomePageAdmin(String username) {
         setTitle("Library Management - Home");
         setLayout(new GridLayout(4, 1, 10, 10));
         
@@ -51,6 +51,6 @@ public class HomePage extends JFrame {
     }
 
     public static void main(String[] args) {
-        new HomePage("admin").setVisible(true);
+        new HomePageAdmin("admin").setVisible(true);
     }
 }

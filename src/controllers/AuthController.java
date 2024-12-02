@@ -17,6 +17,7 @@ public class AuthController {
         return false; // Ngừng thực hiện nếu dữ liệu không hợp lệ
     }
 
+
     // Kết nối cơ sở dữ liệu
     Connection conn = null;
     PreparedStatement pstmt = null;

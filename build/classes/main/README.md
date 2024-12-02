@@ -267,6 +267,10 @@ library_management_app/
   - Chỉnh sửa thông tin nhân viên (Admin).
   - Xóa nhân viên (Admin).
 
+
+###  [super advanced (hard)]
+- User -> co the muon sach bang cach add cuon sach vao db (user tu nhap thong tin cua user, chon sach -> click nut borrow-> add thong tin sach &  
+ thong tin user(member) vao db )-> tra ve thoi han muon sach va thong bao muon thanh cong !
 ---
 
 ## 3. Tính Năng Phân Quyền

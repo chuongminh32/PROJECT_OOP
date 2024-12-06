@@ -22,12 +22,12 @@ public class Member {
     }
 
     // Print member information
-    public void printMember() {
-        System.out.println("ID: " + id);
-        System.out.println("Name: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Phone: " + phone);
-        System.out.println("Membership Date: " + membershipDate);
+    public String toString() {
+        return "ID: " + id +
+               ", Name: " + name +
+               ", Email: " + email +
+               ", Phone: " + phone +
+               ", membershipDate: " + membershipDate;
     }
 
     // Getters and setters

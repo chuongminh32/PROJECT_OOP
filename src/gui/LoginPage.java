@@ -73,6 +73,7 @@ public class LoginPage extends javax.swing.JFrame {
         jLabel3.setText("Password");
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        jPasswordField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jPasswordField1.setBorder(null);
         jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,6 +101,8 @@ public class LoginPage extends javax.swing.JFrame {
         btn_register.setForeground(new java.awt.Color(50, 127, 93));
         btn_register.setText("Đăng kí");
         btn_register.setBorder(null);
+        btn_register.setBorderPainted(false);
+        btn_register.setContentAreaFilled(false);
         btn_register.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btn_register.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -119,6 +122,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/pass.png"))); // NOI18N
 
+        jTextField1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTextField1.setBorder(null);
         jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField1.setPreferredSize(new java.awt.Dimension(64, 22));
@@ -132,19 +136,19 @@ public class LoginPage extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(56, 81, Short.MAX_VALUE))
+                .addGap(56, 87, Short.MAX_VALUE))
             .addGroup(leftLayout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(leftLayout.createSequentialGroup()
                         .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(leftLayout.createSequentialGroup()
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btn_register, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jPasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-                            .addComponent(btn_login, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jPasswordField1)
+                            .addComponent(btn_login, javax.swing.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(leftLayout.createSequentialGroup()
                         .addComponent(jLabel2)
@@ -182,7 +186,7 @@ public class LoginPage extends javax.swing.JFrame {
                 .addGroup(leftLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(btn_register, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout rightLayout = new javax.swing.GroupLayout(right);
@@ -198,8 +202,7 @@ public class LoginPage extends javax.swing.JFrame {
                         .addGap(84, 84, 84)
                         .addComponent(jLabel6)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addComponent(left, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(left, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         rightLayout.setVerticalGroup(
             rightLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -209,7 +212,9 @@ public class LoginPage extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(22, 22, 22))
-            .addComponent(left, javax.swing.GroupLayout.DEFAULT_SIZE, 555, Short.MAX_VALUE)
+            .addGroup(rightLayout.createSequentialGroup()
+                .addComponent(left, javax.swing.GroupLayout.PREFERRED_SIZE, 563, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -220,9 +225,7 @@ public class LoginPage extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(right, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -235,23 +238,38 @@ public class LoginPage extends javax.swing.JFrame {
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         String email = jTextField1.getText();
         String password = new String(jPasswordField1.getPassword());
-
+        String tableName;
+        if (email.endsWith("@staff.com")) {
+            tableName = "Staff";
+        }
+        else {
+            tableName = "Members";
+        }
+        // lay ten tu email va password
+        String name = AuthController.getName(tableName, email, password);
         Boolean loginSuccess = AuthController.login(email, password);
-        handleLogin(loginSuccess, email);
+        handleLogin(loginSuccess, email, name);
     }
 
-    private void handleLogin(Boolean loginSuccess, String email) {
+    private void handleLogin(Boolean loginSuccess, String email, String name) {
+        
         if (loginSuccess) {
-            if (email.equals("chuongminh32@admin.com") || email.equals("thuy@admin.com") || email.equals("minh@admin.com")) {
-               JOptionPane.showMessageDialog(null, "Hi Admin!");
-                HomePageAdmin admin = new HomePageAdmin();
+//            // Tách chuỗi tại dấu '@'
+//            String[] p = email.split("@");
+//            //  Lấy phần đầu tiên (username)
+//            String u = p[0];
+            if (email.endsWith("@staff.com")) {
+                JOptionPane.showMessageDialog(null, "Welcome " + name + " !");
+                HomePageAdmin admin = new HomePageAdmin(name);
                 admin.setVisible(true);
                 admin.pack();
                 admin.setLocationRelativeTo(null);
                 this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Hi User!");
-                HomePageUser user = new HomePageUser();
+            }
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "Welcome " + name + " !");
+                HomePageUser user = new HomePageUser(name);
                 user.setVisible(true);
                 user.pack();
                 user.setLocationRelativeTo(null);

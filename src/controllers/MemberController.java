@@ -16,6 +16,7 @@ public class MemberController {
             this.connection = DBConnection.getConnection();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
@@ -41,6 +42,7 @@ public class MemberController {
                 mh.setEmail(rs.getString("email"));
                 mh.setPhone(rs.getString("phone"));
                 mh.setMembershipDate(rs.getDate("membershipDate"));
+                mh.setPassword(rs.getString("password"));
                 list.add(mh);
             }
         }
@@ -48,14 +50,15 @@ public class MemberController {
     }
 
     // Thêm mới một thành viên
-    public boolean addMember(String id, String name, String email, String phone, Date membershipDate) {
-        String sql = "INSERT INTO Members (id, name, email, phone, membershipDate) VALUES (?, ?, ?, ?, ?)";
+    public boolean addMember(String id, String name, String email, String phone, Date membershipDate, String password) {
+        String sql = "INSERT INTO Members (id, name, email, phone, membershipDate, password) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
             statement.setString(1, id);
             statement.setString(2, name);
             statement.setString(3, email);
             statement.setString(4, phone);
             statement.setDate(5, membershipDate);
+            statement.setString(6, password);
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0; // Trả về true nếu đã thêm thành công
@@ -66,15 +69,17 @@ public class MemberController {
     }
 
     // Cập nhật thông tin thành viên
-    public boolean updateMember(String id, String name, String email, String phone, Date membershipDate) {
-        String sql = "UPDATE Members SET name = ?, email = ?, phone = ?, membershipDate = ? WHERE id = ?";
+    public boolean updateMember(String id, String name, String email, String phone, Date membershipDate,
+            String password) {
+        String sql = "UPDATE Members SET name = ?, email = ?, phone = ?, membershipDate = ?, password=? WHERE id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, name);
             statement.setString(2, email);
             statement.setString(3, phone);
             statement.setDate(4, membershipDate);
-            statement.setString(5, id);
+            statement.setString(5, password);
+            statement.setString(6, id);
 
             int rowsAffected = statement.executeUpdate();
             return rowsAffected > 0; // Trả về true nếu đã cập nhật thành công
@@ -105,16 +110,17 @@ public class MemberController {
         String sql = "SELECT * FROM Members";
 
         try (Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)) {
+                ResultSet rs = statement.executeQuery(sql)) {
 
-            while (resultSet.next()) {
-                String id = resultSet.getString("id");
-                String name = resultSet.getString("name");
-                String email = resultSet.getString("email");
-                String phone = resultSet.getString("phone");
-                Date membershipDate = resultSet.getDate("membershipDate");
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                Date membershipDate = rs.getDate("membershipDate");
+                String password = rs.getString("password");
 
-                Member member = new Member(id, name, email, phone, membershipDate);
+                Member member = new Member(id, name, email, phone, membershipDate, password);
                 members.add(member);
             }
         } catch (SQLException e) {
@@ -131,14 +137,15 @@ public class MemberController {
         try (PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, id);
 
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    String name = resultSet.getString("name");
-                    String email = resultSet.getString("email");
-                    String phone = resultSet.getString("phone");
-                    Date membershipDate = resultSet.getDate("membershipDate");
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    String name = rs.getString("name");
+                    String email = rs.getString("email");
+                    String phone = rs.getString("phone");
+                    Date membershipDate = rs.getDate("membershipDate");
+                    String password = rs.getString("password");
 
-                    return new Member(id, name, email, phone, membershipDate);
+                    return new Member(id, name, email, phone, membershipDate, password);
                 }
             }
         } catch (SQLException e) {

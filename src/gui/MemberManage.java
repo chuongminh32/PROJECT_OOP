@@ -26,7 +26,7 @@
 // // Xem danh sách thành viên: Gọi viewMembers() để lấy danh sách tất cả thành viên và cập nhật bảng.
 
 // public class MemberPanel extends JPanel {
-    
+
 //     private JTextField idField, nameField, emailField, phoneField;
 //     private JButton addButton, updateButton, deleteButton, viewButton;
 //     private JTable memberTable;
@@ -119,7 +119,7 @@
 //         String name = nameField.getText();
 //         String email = emailField.getText();
 //         String phone = phoneField.getText();
-        
+
 //         // Check if fields are empty
 //         if (id.isEmpty() || name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
 //             JOptionPane.showMessageDialog(this, "Please fill in all fields.");
@@ -128,7 +128,7 @@
 
 //         // Convert date to appropriate format
 //         java.sql.Date membershipDate = new java.sql.Date(System.currentTimeMillis());
-        
+
 //         boolean result = memberController.addMember(id, name, email, phone, membershipDate);
 //         if (result) {
 //             JOptionPane.showMessageDialog(this, "Member added successfully.");
@@ -193,7 +193,6 @@
 //     }
 // }
 
-
 package gui;
 
 import javax.swing.*;
@@ -205,11 +204,11 @@ import controllers.MemberController;
 import models.Member;
 
 public class MemberManage extends JPanel {
-    
-    private JTextField idField, nameField, emailField, phoneField;
+
+    private JTextField idField, nameField, emailField, phoneField, passwordField;
     private JButton addButton, updateButton, deleteButton, viewButton;
     private JTable memberTable;
-    private MemberTableModel tableModel;  // Custom table model to handle member data
+    private MemberTableModel tableModel; // Custom table model to handle member data
 
     private MemberController memberController;
 
@@ -256,6 +255,13 @@ public class MemberManage extends JPanel {
         phoneField = new JTextField(15);
         gbc.gridx = 1;
         formPanel.add(phoneField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        formPanel.add(new JLabel("Password:"), gbc);
+        phoneField = new JTextField(15);
+        gbc.gridx = 1;
+        formPanel.add(passwordField, gbc);
 
         // Add buttons for actions
         addButton = new JButton("Add Member");
@@ -323,7 +329,8 @@ public class MemberManage extends JPanel {
         String name = nameField.getText();
         String email = emailField.getText();
         String phone = phoneField.getText();
-        
+        String password = passwordField.getText();
+
         // Check if fields are empty
         if (id.isEmpty() || name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please fill in all fields.");
@@ -332,11 +339,11 @@ public class MemberManage extends JPanel {
 
         // Convert date to appropriate format
         java.sql.Date membershipDate = new java.sql.Date(System.currentTimeMillis());
-        
-        boolean result = memberController.addMember(id, name, email, phone, membershipDate);
+
+        boolean result = memberController.addMember(id, name, email, phone, membershipDate, password);
         if (result) {
             JOptionPane.showMessageDialog(this, "Member added successfully.");
-            viewMembers();  // Refresh the table view
+            viewMembers(); // Refresh the table view
         } else {
             JOptionPane.showMessageDialog(this, "Error adding member.");
         }
@@ -350,6 +357,7 @@ public class MemberManage extends JPanel {
             String name = nameField.getText();
             String email = emailField.getText();
             String phone = phoneField.getText();
+            String password = passwordField.getText();
 
             if (name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Please fill in all fields.");
@@ -358,10 +366,10 @@ public class MemberManage extends JPanel {
 
             java.sql.Date membershipDate = new java.sql.Date(System.currentTimeMillis());
 
-            boolean result = memberController.updateMember(id, name, email, phone, membershipDate);
+            boolean result = memberController.updateMember(id, name, email, phone, membershipDate, password);
             if (result) {
                 JOptionPane.showMessageDialog(this, "Member updated successfully.");
-                viewMembers();  // Refresh the table view
+                viewMembers(); // Refresh the table view
             } else {
                 JOptionPane.showMessageDialog(this, "Error updating member.");
             }
@@ -380,7 +388,7 @@ public class MemberManage extends JPanel {
                 boolean result = memberController.deleteMember(id);
                 if (result) {
                     JOptionPane.showMessageDialog(this, "Member deleted successfully.");
-                    viewMembers();  // Refresh the table view
+                    viewMembers(); // Refresh the table view
                 } else {
                     JOptionPane.showMessageDialog(this, "Error deleting member.");
                 }
@@ -393,7 +401,7 @@ public class MemberManage extends JPanel {
     // View all members
     private void viewMembers() {
         List<Member> members = memberController.getAllMembers();
-        tableModel.setMembers(members);  // Update the table with new member data
+        tableModel.setMembers(members); // Update the table with new member data
     }
 
     public void run() {

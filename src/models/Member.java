@@ -8,26 +8,29 @@ public class Member {
     private String email;
     private String phone;
     private Date membershipDate;
+    private String password;
 
     // Constructor
     public Member() {
     }
 
-    public Member(String id, String name, String email, String phone, Date membershipDate) {
+    public Member(String id, String name, String email, String phone, Date membershipDate, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.membershipDate = membershipDate;
+        this.password = password;
     }
 
     // Print member information
-    public void printMember() {
-        System.out.println("ID: " + id);
-        System.out.println("Name: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Phone: " + phone);
-        System.out.println("Membership Date: " + membershipDate);
+    public String toString() {
+        return "ID: " + id +
+                ", Name: " + name +
+                ", Email: " + email +
+                ", Phone: " + phone +
+                ", membershipDate: " + membershipDate +
+                ", password: " + password;
     }
 
     // Getters and setters
@@ -69,5 +72,19 @@ public class Member {
 
     public void setMembershipDate(Date membershipDate) {
         this.membershipDate = membershipDate;
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

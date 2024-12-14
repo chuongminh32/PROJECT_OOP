@@ -25,10 +25,10 @@ public class StaffControllerTest {
 //            System.out.println();
 //            stt++;
 //        }
-//        Date date = Date.valueOf("2024-12-14");
-//        Staff staff = new Staff("S099","Nguyen Admin","nguyen.admin@staff.com","0123456789","Admin",date,"nguyen123");
-//        sc.insertStaff(staff);
-          sc.deleteStaff("S099");
+        Date date = Date.valueOf("2024-12-14");
+        Staff staff = new Staff("S099","Nguyen Admin","nguyen.admin@staff.com","0123456788","Admin",date,"nguyen123");
+        sc.updateStaff(staff, "S099");
+//          sc.deleteStaff("S099");
         
     }
             

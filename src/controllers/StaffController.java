@@ -84,5 +84,31 @@ public class StaffController {
         
     }
     
+    public void updateStaff(Staff staff, String id) {
+        String query = "UPDATE Staff SET name = ?, email = ?, phone = ?, position = ?, hireDate = ?, password = ? WHERE id = ?";
+
+        try (Connection connection = DBConnection.getConnection();
+            PreparedStatement statement = connection.prepareStatement(query)) {
+
+            statement.setString(1, staff.getName());
+            statement.setString(2, staff.getEmail());
+            statement.setString(3, staff.getPhoneNumber());
+            statement.setString(4, staff.getPosition());
+            statement.setDate(5, staff.getHire_date());
+            statement.setString(6, staff.getPassword());
+            statement.setString(7, staff.getId());
+
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Staff updated successfully!");
+            }
+            else {
+                this.insertStaff(staff);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    
     
 }

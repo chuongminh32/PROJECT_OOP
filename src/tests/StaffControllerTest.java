@@ -13,6 +13,7 @@ public class StaffControllerTest {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException{
         Connection conn = DBConnection.getConnection();
+        //KIỂM THỬ XUẤT THÔNG TIN
         StaffController sc = new StaffController();
         ArrayList<Staff> list = new ArrayList();
         list = (ArrayList<Staff>) sc.getAllStaffs();

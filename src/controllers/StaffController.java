@@ -27,8 +27,9 @@ public class StaffController {
                 String phoneNumber = resultSet.getString("phone");
                 String position = resultSet.getString("position");
                 Date hire_date = resultSet.getDate("hireDate");
+                String password = resultSet.getString("password");
     
-                Staff staff = new Staff(id, name, email, phoneNumber, position, hire_date);
+                Staff staff = new Staff(id, name, email, phoneNumber, position, hire_date, password);
                 staffs.add(staff);
                 
             }
@@ -38,7 +39,25 @@ public class StaffController {
             e.printStackTrace();
             return new ArrayList<>(); // return an empty list
         }
+    } // CLOSE getAllStaffs
     
-    
+    public void deleteStaff(String id) {
+        String query = "DELETE FROM Staff WHERE id = ?";
+
+        try (Connection connection = DBConnection.getConnection();
+                
+            PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, id);
+
+            int rowsDeleted = statement.executeUpdate();
+            if (rowsDeleted > 0) {
+                System.out.println("Book deleted successfully!");
+            }
+            else System.out.println("Can't find record in table!");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
+    
+    
 }

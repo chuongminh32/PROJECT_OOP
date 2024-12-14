@@ -18,7 +18,7 @@ public class SQLServerConnection {
     private static final String DB_URL = "jdbc:sqlserver://localhost:1433";
     private static final String DB_NAME = "Project_OOP";
     private static final String DB_USERNAME = "sa";
-    private static final String DB_PASSWORD = "2357";
+    private static final String DB_PASSWORD = "123456";
     private static final String CONNECTION_URL = DB_URL + ";databaseName=" + DB_NAME + ";encrypt=true;trustServerCertificate=true";
 
     /**

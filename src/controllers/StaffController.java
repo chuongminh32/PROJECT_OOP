@@ -41,7 +41,7 @@ public class StaffController {
         }
     } // CLOSE getAllStaffs
     
-    public void deleteStaff(String id) {
+    public void deleteStaff(String id) throws SQLException {
         String query = "DELETE FROM Staff WHERE id = ?";
 
         try (Connection connection = DBConnection.getConnection();
@@ -51,12 +51,37 @@ public class StaffController {
 
             int rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
-                System.out.println("Book deleted successfully!");
+                System.out.println("Staff deleted successfully!");
             }
             else System.out.println("Can't find record in table!");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+    
+    public void insertStaff(Staff staff) throws SQLException {
+        String query = "Insert Staff(id,name,email,phone,position,hireDate,password)"
+                + "values (?, ?, ?, ?, ?, ?, ?)";
+        try (Connection connection = DBConnection.getConnection();
+                
+            PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, staff.getId());
+            statement.setString(2, staff.getName());
+            statement.setString(3, staff.getEmail());
+            statement.setString(4, staff.getPhoneNumber());
+            statement.setString(5, staff.getPosition());
+            statement.setDate(6, staff.getHire_date());
+            statement.setString(7, staff.getPassword());
+            
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("Staff insert successfully!");
+            }
+            else System.out.println("Can't insert record in table!");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        
     }
     
     

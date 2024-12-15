@@ -44,6 +44,10 @@ library_management_app/
 │   ├── controllers/                   -> Các bộ điều khiển logic của ứng dụng
 │   │   ├── LogicController.java       -> Bộ điều khiển logic phân quyền người dùng
 │   │   ├── BookController.java        -> Bộ điều khiển logic quản lý sách
+<<<<<<< HEAD
+=======
+│   │   ├── HomePageLogic.java        -> Bộ điều khiển logic quản lí trang chủ
+>>>>>>> 8883d96c935412c3fb121fabe11cd22574a6d2a2
 │   │   ├── MemberController.java      -> Bộ điều khiển logic quản lý thành viên
 │   │   ├── BorrowController.java      -> Bộ điều khiển logic quản lý mượn trả
 │   │   └── StaffController.java       -> Bộ điều khiển logic quản lý nhân viên
@@ -267,6 +271,13 @@ library_management_app/
   - Chỉnh sửa thông tin nhân viên (Admin).
   - Xóa nhân viên (Admin).
 
+<<<<<<< HEAD
+=======
+
+###  [super advanced (hard)]
+- User -> co the muon sach bang cach add cuon sach vao db (user tu nhap thong tin cua user, chon sach -> click nut borrow-> add thong tin sach &  
+ thong tin user(member) vao db )-> tra ve thoi han muon sach va thong bao muon thanh cong !
+>>>>>>> 8883d96c935412c3fb121fabe11cd22574a6d2a2
 ---
 
 ## 3. Tính Năng Phân Quyền

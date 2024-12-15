@@ -1,48 +1,139 @@
 package models;
+
 import java.util.Date;
 
 public class Borrow {
-    private String borrowId;      // Mã mượn (duy nhất)
-    private String memberId;      // Mã thành viên (người mượn)
-    private String bookId;        // Mã sách (được mượn)
+
+    private int id;      // Mã mượn (duy nhất)
+    private Member memberId;      // Mã thành viên (người mượn)
+    private Book bookId;        // Mã sách (được mượn)
     private Date borrowDate;      // Ngày mượn
-    private Date returnDate;      // Ngày trả (dự kiến)
-    private Date actualReturnDate; // Ngày trả thực tế
+    private Date returnDate;      // Ngày trả thực tế
+    private Date dueDate;           // Ngày trả (dự kiến)
     private String status;        // Trạng thái (Đang mượn, Đã trả, Quá hạn)
 
     // Constructor
     public Borrow() {
     }
-    public Borrow(String borrowId, String memberId, String bookId, Date borrowDate, Date returnDate, 
-                  Date actualReturnDate, String status) {
-        this.borrowId = borrowId;
+
+    public Borrow(int id, Member memberId, Book bookId, Date borrowDate, Date returnDate,
+            Date dueDate, String status) {
+        this.id = id;
         this.memberId = memberId;
         this.bookId = bookId;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
-        this.actualReturnDate = actualReturnDate;
+        this.dueDate = dueDate;
         this.status = status;
     }
 
-    // Getters and Setters
-    public String getBorrowId() { return borrowId; }
-    public void setBorrowId(String borrowId) { this.borrowId = borrowId; }
+    // Print member information
+    public String toString() {
+        return "ID: " + id
+                + ", Ten thanh vien: " + memberId.getName()
+                + ", Ten sach: " + bookId.getTitle()
+                + ", Ngay muon: " + borrowDate
+                + ", Ngay tra thuc te: " + returnDate
+                + ", Ngay tra du kien: " + dueDate
+                + ", Trang thai: " + status;
+    }
 
-    public String getMemberId() { return memberId; }
-    public void setMemberId(String memberId) { this.memberId = memberId; }
+//    // Getters and Setters
+    /**
+     * @return the id
+     */
+    public int getId() {
+        return id;
+    }
 
-    public String getBookId() { return bookId; }
-    public void setBookId(String bookId) { this.bookId = bookId; }
+    /**
+     * @param id the id to set
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    public Date getBorrowDate() { return borrowDate; }
-    public void setBorrowDate(Date borrowDate) { this.borrowDate = borrowDate; }
+    /**
+     * @return the memberId
+     */
+    public Member getMemberId() {
+        return memberId;
+    }
 
-    public Date getReturnDate() { return returnDate; }
-    public void setReturnDate(Date returnDate) { this.returnDate = returnDate; }
+    /**
+     * @param memberId the memberId to set
+     */
+    public void setMemberId(Member memberId) {
+        this.memberId = memberId;
+    }
 
-    public Date getActualReturnDate() { return actualReturnDate; }
-    public void setActualReturnDate(Date actualReturnDate) { this.actualReturnDate = actualReturnDate; }
+    /**
+     * @return the bookId
+     */
+    public Book getBookId() {
+        return bookId;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    /**
+     * @param bookId the bookId to set
+     */
+    public void setBookId(Book bookId) {
+        this.bookId = bookId;
+    }
+
+    /**
+     * @return the borrowDate
+     */
+    public Date getBorrowDate() {
+        return borrowDate;
+    }
+
+    /**
+     * @param borrowDate the borrowDate to set
+     */
+    public void setBorrowDate(Date borrowDate) {
+        this.borrowDate = borrowDate;
+    }
+
+    /**
+     * @return the returnDate
+     */
+    public Date getReturnDate() {
+        return returnDate;
+    }
+
+    /**
+     * @param returnDate the returnDate to set
+     */
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    /**
+     * @return the dueDate
+     */
+    public Date getDueDate() {
+        return dueDate;
+    }
+
+    /**
+     * @param dueDate the dueDate to set
+     */
+    public void setDueDate(Date dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    /**
+     * @return the status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

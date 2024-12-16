@@ -54,6 +54,7 @@ public class StaffController {
             }
             else System.out.println("Can't find record in table!");
         } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
     

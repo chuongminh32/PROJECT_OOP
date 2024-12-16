@@ -5,16 +5,11 @@
 package gui;
 import controllers.StaffController;
 import java.util.List;
-import java.util.ArrayList;
-import java.sql.Statement; // truy vấn không tham số
-import java.sql.PreparedStatement; // truy vấn có tham số
-import java.sql.Connection; // kết nối db
 import java.sql.SQLException; // lỗi kết nối sql
-import java.sql.ResultSet; // lưu dữ liệu db
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import utils.DBConnection; // import class DBConnection
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
 
@@ -65,7 +60,7 @@ public class StaffManager extends javax.swing.JFrame {
         this.emailField.setEnabled(root);
         this.hireDateField.setEnabled(root);
         this.PasswordField.setEnabled(root);
-        this.positionCB.setEnabled(root);
+        this.positionField.setEnabled(root);
     }
     public StaffManager() throws SQLException, ClassNotFoundException {
         /* HÀM HIỂN THỊ BẢNG QUẢN LÝ NHÂN VIÊN
@@ -127,10 +122,9 @@ public class StaffManager extends javax.swing.JFrame {
         hireDateField = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         PasswordField = new javax.swing.JPasswordField();
-        positionCB = new javax.swing.JComboBox<>();
         delete_button = new javax.swing.JButton();
         update_button = new javax.swing.JButton();
-        submit_button = new javax.swing.JButton();
+        positionField = new javax.swing.JTextField();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -317,10 +311,6 @@ public class StaffManager extends javax.swing.JFrame {
         PasswordField.setText("jPasswordField1");
         PasswordField.setEnabled(false);
 
-        positionCB.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        positionCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        positionCB.setEnabled(false);
-
         delete_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         delete_button.setText("DELETE");
         delete_button.setAutoscrolls(true);
@@ -341,17 +331,9 @@ public class StaffManager extends javax.swing.JFrame {
             }
         });
 
-        submit_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        submit_button.setText("SUBMIT");
-        submit_button.setToolTipText("");
-        submit_button.setAutoscrolls(true);
-        submit_button.setEnabled(false);
-        submit_button.setPreferredSize(new java.awt.Dimension(75, 30));
-        submit_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submit_buttonActionPerformed(evt);
-            }
-        });
+        positionField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        positionField.setToolTipText("");
+        positionField.setEnabled(false);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -383,15 +365,15 @@ public class StaffManager extends javax.swing.JFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(PasswordField))
+                                .addComponent(PasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(hireDateField)
-                                    .addComponent(positionCB, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(hireDateField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                                    .addComponent(positionField)))))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(refresh_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(224, 224, 224)
@@ -399,9 +381,7 @@ public class StaffManager extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(submit_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(0, 6, Short.MAX_VALUE)
@@ -434,7 +414,7 @@ public class StaffManager extends javax.swing.JFrame {
                             .addGroup(jPanel4Layout.createSequentialGroup()
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(positionCB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(positionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -455,8 +435,7 @@ public class StaffManager extends javax.swing.JFrame {
                     .addComponent(refresh_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(submit_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
 
@@ -490,9 +469,13 @@ public class StaffManager extends javax.swing.JFrame {
     }//GEN-LAST:event_jStaffFieldActionPerformed
 
     private void delete_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_buttonActionPerformed
-        // BUTTON XÓA STAFF RA KHỎI DATABASE
-        int row = this.Staff_Table.getSelectedRow();
-        if (row == -1){
+        /*BUTTON XÓA STAFF RA KHỎI DATABASE
+        - Có thể xóa từng bản ghi hoặc nhiều bản ghi cùng lúc
+        - Chọn trực tiếp trên bản và ấn vào button "DELETE"
+        */
+        int[] rows = this.Staff_Table.getSelectedRows();
+        
+        if (rows.length < 1){
             JOptionPane.showMessageDialog(StaffManager.this, "You haven't choose any staff!");
         }
         else {
@@ -500,8 +483,19 @@ public class StaffManager extends javax.swing.JFrame {
             
             if (confirm == JOptionPane.YES_OPTION){
                 try {
-                    String staff_id = String.valueOf(this.Staff_Table.getValueAt(row, 0));
-                    this.delete_Staff(staff_id);
+                    boolean delete = false;
+                    String staff_id;
+                    //Điều chỉnh giá trị index khi xóa lần lượt từng bản ghi
+                    for (int i = 0; i < rows.length; i++) {
+                        if (!delete) {
+                            staff_id = String.valueOf(this.Staff_Table.getValueAt(rows[i] - i, 0)); 
+                        } else {
+                            staff_id = String.valueOf(this.Staff_Table.getValueAt(rows[i], 0));
+                            delete = true;
+                        }
+                        this.delete_Staff(staff_id);
+                    }     
+                    
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -556,15 +550,17 @@ public class StaffManager extends javax.swing.JFrame {
                     new_staff.setName(this.nameField.getText());
                     new_staff.setEmail(this.emailField.getText());
                     new_staff.setPhoneNumber(this.phoneField.getText());
-            //        new_staff.setPosition(this.positionCB.getItemAt(WIDTH));
-                    new_staff.setPosition("admin");
-                    new_staff.setPassword("admin123");
+                    new_staff.setPosition(this.positionField.getText());
+                    char[] cpassword = this.PasswordField.getPassword();
+                    String password = new String(cpassword);
+                    new_staff.setPassword(password);
                     Date hireDate = Date.valueOf(this.hireDateField.getText());
                     new_staff.setHire_date(hireDate);
-            //        new_staff.setPassword(this.PasswordField.getText());
+                    
                     this.add_Staff(new_staff);
+                    
                     JOptionPane.showMessageDialog(this, "Staff inserted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    this.setEnabled(false);
+                    this.set_field(false);
                     this.isEditing = false;
                 } catch (SQLException | ClassNotFoundException ex) {
                     if (ex.getMessage().contains("Violation of PRIMARY KEY constraint")) {
@@ -582,13 +578,7 @@ public class StaffManager extends javax.swing.JFrame {
 
     private void update_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_buttonActionPerformed
         // BUTTON UPDATE THÔNG TIN STAFF
-        this.submit_button.setVisible(true);
     }//GEN-LAST:event_update_buttonActionPerformed
-
-    private void submit_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submit_buttonActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_submit_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -660,9 +650,12 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JTextField jStaffField;
     private javax.swing.JTextField nameField;
     private javax.swing.JTextField phoneField;
-    private javax.swing.JComboBox<String> positionCB;
+    private javax.swing.JTextField positionField;
     private javax.swing.JButton refresh_button1;
-    private javax.swing.JButton submit_button;
     private javax.swing.JButton update_button;
     // End of variables declaration//GEN-END:variables
+
+    private String toString(char[] password) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

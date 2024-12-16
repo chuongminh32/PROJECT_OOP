@@ -45,7 +45,8 @@ public class StaffController {
 
         try (Connection connection = DBConnection.getConnection();
                 
-            PreparedStatement statement = connection.prepareStatement(query)) {
+            PreparedStatement statement = connection.prepareStatement(query))
+        {
             statement.setString(1, id);
 
             int rowsDeleted = statement.executeUpdate();
@@ -81,6 +82,35 @@ public class StaffController {
                 throw e;           
         }
         
+    }
+    
+    public List<Staff> find_staff_byname(String name) throws SQLException, ClassNotFoundException{
+        String sql = "Select * from Staff WHERE name=?";
+        
+        try (Connection connection = DBConnection.getConnection();
+        PreparedStatement pstm = connection.prepareStatement(sql);){
+            pstm.setString(1,  name);
+        
+            ResultSet rs = pstm.executeQuery();
+            List <Staff> staffs = new ArrayList<>();
+
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String names = rs.getString("name");
+                String email = rs.getString("email");
+                String phoneNumber = rs.getString("phone");
+                String position = rs.getString("position");
+                Date hire_date = rs.getDate("hireDate");
+                String password = rs.getString("password");
+    
+                Staff staff = new Staff(id, name, email, phoneNumber, position, hire_date, password);
+                staffs.add(staff);  
+            }
+            return staffs;
+        }   catch (SQLException | ClassNotFoundException e){      
+                e.printStackTrace();
+                return null;   
+        }
     }
     
     public void updateStaff(Staff staff, String id) {

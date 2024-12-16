@@ -86,8 +86,8 @@ public class StaffManager extends javax.swing.JFrame {
         if (this.nameField.getText().trim().isEmpty() || 
             this.hireDateField.getText().trim().isEmpty() || 
             this.PasswordField.getPassword().length == 0) {
-    JOptionPane.showMessageDialog(StaffManager.this, "You have to fill in the blank!", "Input Error", JOptionPane.WARNING_MESSAGE);
-    }
+            JOptionPane.showMessageDialog(StaffManager.this, "You have to fill in the blank!", "Input Error", JOptionPane.WARNING_MESSAGE);
+        }
         return false;
     }
             
@@ -159,6 +159,7 @@ public class StaffManager extends javax.swing.JFrame {
         delete_button = new javax.swing.JButton();
         update_button = new javax.swing.JButton();
         positionField = new javax.swing.JTextField();
+        search_button = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -399,6 +400,16 @@ public class StaffManager extends javax.swing.JFrame {
         positionField.setToolTipText("");
         positionField.setEnabled(false);
 
+        search_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        search_button.setText("SEARCH");
+        search_button.setAutoscrolls(true);
+        search_button.setPreferredSize(new java.awt.Dimension(75, 30));
+        search_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                search_buttonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -445,7 +456,9 @@ public class StaffManager extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(search_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -497,7 +510,8 @@ public class StaffManager extends javax.swing.JFrame {
                     .addComponent(refresh_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(search_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(15, 15, 15))
         );
 
@@ -668,6 +682,8 @@ public class StaffManager extends javax.swing.JFrame {
                 isEditing = true;
             } else {
                 try {
+                    this.set_field(false);
+                    isEditing = false;
                     Staff new_staff = new Staff();
                     new_staff.setId(this.idField.getText());
                     new_staff.setName(this.nameField.getText());
@@ -681,7 +697,7 @@ public class StaffManager extends javax.swing.JFrame {
                     new_staff.setHire_date(hireDate);
                     
                     this.update_Staff(new_staff.getId(), new_staff);
-                    isEditing = false;
+                    
                 } catch (SQLException | ClassNotFoundException ex) {
                     Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -689,6 +705,27 @@ public class StaffManager extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_update_buttonActionPerformed
+
+    private void search_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_buttonActionPerformed
+        // TODO add your handling code here:
+        this.set_field(false);
+        this.nameField.setEnabled(true);
+        String name = this.nameField.getText();
+        List<Staff> staffs = null;
+        try {
+            if (name.trim().length() == 0) {
+            staffs = this.staffcontroller.getAllStaffs();
+            } else {
+            staffs = (List<Staff>) this.staffcontroller.find_staff_byname(name);
+            }
+            
+            this.setData(staffs);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+
+    }//GEN-LAST:event_search_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -762,6 +799,7 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JTextField phoneField;
     private javax.swing.JTextField positionField;
     private javax.swing.JButton refresh_button1;
+    private javax.swing.JButton search_button;
     private javax.swing.JButton update_button;
     // End of variables declaration//GEN-END:variables
 

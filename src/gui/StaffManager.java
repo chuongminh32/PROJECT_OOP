@@ -81,6 +81,16 @@ public class StaffManager extends javax.swing.JFrame {
 
         
     }
+    
+    private boolean is_nonnull_field(){
+        if (this.nameField.getText().trim().isEmpty() || 
+            this.hireDateField.getText().trim().isEmpty() || 
+            this.PasswordField.getPassword().length == 0) {
+    JOptionPane.showMessageDialog(StaffManager.this, "You have to fill in the blank!", "Input Error", JOptionPane.WARNING_MESSAGE);
+    }
+        return false;
+    }
+            
     public StaffManager() throws SQLException, ClassNotFoundException {
         /* HÀM HIỂN THỊ BẢNG QUẢN LÝ NHÂN VIÊN
         */
@@ -596,7 +606,20 @@ public class StaffManager extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "ID field cannot be empty.", "Input Error", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                try {            
+                if (!this.is_nonnull_field()){
+                    String email = this.emailField.getText().trim();
+                    
+                    try {
+                        // Kiểm tra nếu email đã tồn tại trong cơ sở dữ liệu
+                        if (this.staffcontroller.isEmailExists(email)) {
+                            JOptionPane.showMessageDialog(this, "Error: Email " + email + " already exists.", "Database Error", JOptionPane.ERROR_MESSAGE);
+                            return; // Dừng thực hiện nếu email đã tồn tại
+                        }
+                    } catch (SQLException | ClassNotFoundException ex) {
+                        Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    try {
+                    
                     Staff new_staff = new Staff();
                     new_staff.setId(this.idField.getText());
                     new_staff.setName(this.nameField.getText());
@@ -624,6 +647,9 @@ public class StaffManager extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(this, "Invalid hire date format. Please enter the date in the format yyyy-mm-dd.", "Input Error", JOptionPane.ERROR_MESSAGE);
                     Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                }
+                
+                
             }    
         }  
     }//GEN-LAST:event_add_buttonActionPerformed

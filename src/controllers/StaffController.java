@@ -108,5 +108,22 @@ public class StaffController {
         }
     }
     
+    public boolean isEmailExists(String email) throws SQLException, ClassNotFoundException {
+        //KIỂM TRA EMAIL CÓ PHẢI LÀ DUY NHẤT
+    String query = "SELECT COUNT(*) FROM Staff WHERE email = ?";
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query)) {
+        statement.setString(1, email);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0; // Email đã tồn tại nếu count > 0
+            }
+        }
+    }
+    return false; // Email không tồn tại
+}
+
+    
     
 }

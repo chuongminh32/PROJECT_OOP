@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import utils.DBConnection; // import class DBConnection
 import javax.swing.table.DefaultTableModel;
+
 import models.Staff;
 /**
  *
@@ -22,7 +23,8 @@ import models.Staff;
  */
 public class StaffManager extends javax.swing.JFrame {
     
-    StaffController staffcontroller;
+    private StaffController staffcontroller = new StaffController();
+    private DefaultTableModel dtablemodel;
 //    Staff_Table stafftable = new Staff_Table();
     
     /**
@@ -30,18 +32,18 @@ public class StaffManager extends javax.swing.JFrame {
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
-    public StaffManager() throws SQLException, ClassNotFoundException {
-        initComponents();
-        //Tạo bảng default
-        DefaultTableModel dtablemodel = new DefaultTableModel();
+    private void Staff_table() throws SQLException, ClassNotFoundException {
+        /* HÀM HIỂN THỊ BẢNG QUẢN LÝ NHÂN VIÊN
+        */
+        this.dtablemodel = new DefaultTableModel(){
+            //Không cho phép người dùng sửa trực tiếp trên bảng
+            @Override 
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
         this.Staff_Table.setModel(dtablemodel);
-        
-        //Truy xuất dữ liệu từ database
-        Connection conn = DBConnection.getConnection();
-        this.staffcontroller = new StaffController();
-        ArrayList<Staff> staff_list = new ArrayList();
-        staff_list = (ArrayList<Staff>) staffcontroller.getAllStaffs();
-        
+       
         dtablemodel.addColumn("id");
         dtablemodel.addColumn("name");
         dtablemodel.addColumn("email");
@@ -50,11 +52,39 @@ public class StaffManager extends javax.swing.JFrame {
         dtablemodel.addColumn("hireDate");
         dtablemodel.addColumn("password");
         
+        setData(staffcontroller.getAllStaffs());   
+    }
+    
+    private void setData(List<Staff> staff_list)  throws SQLException, ClassNotFoundException{
+        //Truy xuất dữ liệu từ database
         for (Staff staff: staff_list){
             dtablemodel.addRow(new Object[]{staff.getId(), staff.getName(), staff.getEmail(),
                 staff.getPhoneNumber() ,staff.getPosition(), staff.getHire_date(), staff.getPassword()});
             
         } //close for
+        
+    }
+    
+    public StaffManager() throws SQLException, ClassNotFoundException {
+        initComponents();
+        this.dtablemodel = new DefaultTableModel(){
+            //Không cho phép người dùng sửa trực tiếp trên bảng
+            @Override 
+            public boolean isCellEditable(int row, int column){
+                return false;
+            }
+        };
+        this.Staff_Table.setModel(dtablemodel);
+       
+        dtablemodel.addColumn("id");
+        dtablemodel.addColumn("name");
+        dtablemodel.addColumn("email");
+        dtablemodel.addColumn("phone");
+        dtablemodel.addColumn("position");
+        dtablemodel.addColumn("hireDate");
+        dtablemodel.addColumn("password");
+        
+        setData(staffcontroller.getAllStaffs());   
         
     }
 
@@ -79,6 +109,7 @@ public class StaffManager extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Staff_Table = new javax.swing.JTable();
+        refresh_button = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -175,6 +206,15 @@ public class StaffManager extends javax.swing.JFrame {
         Staff_Table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(Staff_Table);
 
+        refresh_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        refresh_button.setText("REFRESH");
+        refresh_button.setPreferredSize(new java.awt.Dimension(75, 30));
+        refresh_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refresh_buttonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -182,12 +222,18 @@ public class StaffManager extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 923, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(refresh_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 321, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 254, Short.MAX_VALUE)
+                .addComponent(refresh_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -219,6 +265,16 @@ public class StaffManager extends javax.swing.JFrame {
     private void jStaffFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStaffFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jStaffFieldActionPerformed
+
+    private void refresh_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refresh_buttonActionPerformed
+        //HÀM BUTTON REFRESH DỮ LIỆU TỪ DATABASE
+        try {
+            dtablemodel.setColumnCount(0);
+            Staff_table();
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_refresh_buttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -275,5 +331,6 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jStaffField;
+    private javax.swing.JButton refresh_button;
     // End of variables declaration//GEN-END:variables
 }

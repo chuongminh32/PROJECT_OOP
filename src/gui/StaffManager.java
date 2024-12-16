@@ -52,7 +52,12 @@ public class StaffManager extends javax.swing.JFrame {
         this.staffcontroller.deleteStaff(id);
         setData(staffcontroller.getAllStaffs()); 
     }
-    
+    private void update_Staff(String id, Staff staff) throws SQLException, ClassNotFoundException {
+        //Cập nhật người dùng, nếu không tìm thấy id thì thêm mới
+        this.staffcontroller.updateStaff(staff, id);
+        setData(staffcontroller.getAllStaffs());
+    }
+            
     private void set_field(boolean root){
         this.nameField.setEnabled(root);
         this.idField.setEnabled(root);
@@ -61,6 +66,16 @@ public class StaffManager extends javax.swing.JFrame {
         this.hireDateField.setEnabled(root);
         this.PasswordField.setEnabled(root);
         this.positionField.setEnabled(root);
+    }
+    private void set_field_value(int row){
+        this.idField.setText((String) this.Staff_Table.getValueAt(row, 0));
+        this.nameField.setText((String) this.Staff_Table.getValueAt(row, 1));
+        this.emailField.setText((String) this.Staff_Table.getValueAt(row, 2));
+        this.phoneField.setText((String) this.Staff_Table.getValueAt(row, 3));
+        this.positionField.setText((String) this.Staff_Table.getValueAt(row, 4));
+        this.hireDateField.setText(this.Staff_Table.getValueAt(row, 5).toString()); // Chuyển đổi giá trị ngày tháng thành chuỗi
+
+        
     }
     public StaffManager() throws SQLException, ClassNotFoundException {
         /* HÀM HIỂN THỊ BẢNG QUẢN LÝ NHÂN VIÊN
@@ -578,6 +593,38 @@ public class StaffManager extends javax.swing.JFrame {
 
     private void update_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_buttonActionPerformed
         // BUTTON UPDATE THÔNG TIN STAFF
+        int row = this.Staff_Table.getSelectedRow();
+//        Staff staff = this.Staff_Table.getValueAt(row);
+        if (row == -1) {
+            JOptionPane.showMessageDialog(StaffManager.this, "You haven't choose any staff!");
+        } else {
+            if (!isEditing) {
+                this.set_field_value(row);
+                this.set_field(true);
+                this.idField.setEnabled(false);
+                isEditing = true;
+            } else {
+                try {
+                    Staff new_staff = new Staff();
+                    new_staff.setId(this.idField.getText());
+                    new_staff.setName(this.nameField.getText());
+                    new_staff.setEmail(this.emailField.getText());
+                    new_staff.setPhoneNumber(this.phoneField.getText());
+                    new_staff.setPosition(this.positionField.getText());
+                    char[] cpassword = this.PasswordField.getPassword();
+                    String password = new String(cpassword);
+                    new_staff.setPassword(password);
+                    Date hireDate = Date.valueOf(this.hireDateField.getText());
+                    new_staff.setHire_date(hireDate);
+                    
+                    this.update_Staff(new_staff.getId(), new_staff);
+                    isEditing = false;
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+        }
     }//GEN-LAST:event_update_buttonActionPerformed
 
     /**

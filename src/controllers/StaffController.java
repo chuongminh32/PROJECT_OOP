@@ -36,7 +36,6 @@ public class StaffController {
 
             return staffs;
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
             return new ArrayList<>(); // return an empty list
         }
     } // CLOSE getAllStaffs
@@ -55,11 +54,10 @@ public class StaffController {
             }
             else System.out.println("Can't find record in table!");
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
     
-    public void insertStaff(Staff staff) throws SQLException {
+    public void insertStaff(Staff staff) throws SQLException, ClassNotFoundException {
         String query = "Insert Staff(id,name,email,phone,position,hireDate,password)"
                 + "values (?, ?, ?, ?, ?, ?, ?)";
         try (Connection connection = DBConnection.getConnection();
@@ -78,8 +76,8 @@ public class StaffController {
                 System.out.println("Staff insert successfully!");
             }
             else System.out.println("Can't insert record in table!");
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (SQLException | ClassNotFoundException e){      
+                throw e;           
         }
         
     }
@@ -106,7 +104,6 @@ public class StaffController {
                 this.insertStaff(staff);
             }
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
     

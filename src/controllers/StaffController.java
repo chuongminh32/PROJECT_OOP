@@ -45,7 +45,8 @@ public class StaffController {
 
         try (Connection connection = DBConnection.getConnection();
                 
-            PreparedStatement statement = connection.prepareStatement(query)) {
+            PreparedStatement statement = connection.prepareStatement(query))
+        {
             statement.setString(1, id);
 
             int rowsDeleted = statement.executeUpdate();
@@ -54,6 +55,7 @@ public class StaffController {
             }
             else System.out.println("Can't find record in table!");
         } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
     
@@ -82,6 +84,35 @@ public class StaffController {
         
     }
     
+    public List<Staff> find_staff_byname(String name) throws SQLException, ClassNotFoundException{
+        String sql = "Select * from Staff WHERE name=?";
+        
+        try (Connection connection = DBConnection.getConnection();
+        PreparedStatement pstm = connection.prepareStatement(sql);){
+            pstm.setString(1,  name);
+        
+            ResultSet rs = pstm.executeQuery();
+            List <Staff> staffs = new ArrayList<>();
+
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String names = rs.getString("name");
+                String email = rs.getString("email");
+                String phoneNumber = rs.getString("phone");
+                String position = rs.getString("position");
+                Date hire_date = rs.getDate("hireDate");
+                String password = rs.getString("password");
+    
+                Staff staff = new Staff(id, name, email, phoneNumber, position, hire_date, password);
+                staffs.add(staff);  
+            }
+            return staffs;
+        }   catch (SQLException | ClassNotFoundException e){      
+                e.printStackTrace();
+                return null;   
+        }
+    }
+    
     public void updateStaff(Staff staff, String id) {
         String query = "UPDATE Staff SET name = ?, email = ?, phone = ?, position = ?, hireDate = ?, password = ? WHERE id = ?";
 
@@ -106,6 +137,23 @@ public class StaffController {
         } catch (SQLException | ClassNotFoundException e) {
         }
     }
+    
+    public boolean isEmailExists(String email) throws SQLException, ClassNotFoundException {
+        //KIỂM TRA EMAIL CÓ PHẢI LÀ DUY NHẤT
+    String query = "SELECT COUNT(*) FROM Staff WHERE email = ?";
+    try (Connection connection = DBConnection.getConnection();
+        PreparedStatement statement = connection.prepareStatement(query)) {
+        statement.setString(1, email);
+        try (ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                return count > 0; // Email đã tồn tại nếu count > 0
+            }
+        }
+    }
+    return false; // Email không tồn tại
+}
+
     
     
 }

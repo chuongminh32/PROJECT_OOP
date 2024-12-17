@@ -14,7 +14,6 @@ import java.util.Date;
 import models.Member;
 import models.Book;
 
-
 import models.Borrow;
 import javax.swing.JOptionPane;
 
@@ -25,10 +24,8 @@ import utils.DBConnection;
  * @author chuon
  */
 public class HomePageLogic {
-    
-    // them du lieu muon sach cua user vao bang:
-    
 
+    // them du lieu muon sach cua user vao bang:
     // lay doi tuong member qua id
     public static Member getMember(String memberId) {
         try (Connection conn = DBConnection.getConnection()) {
@@ -96,11 +93,10 @@ public class HomePageLogic {
             if (rs.next()) {
                 if (tableName == "Books") {
                     name = rs.getString("title");
-                }
-                else {
+                } else {
                     name = rs.getString("name");
                 }
-                
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,6 +104,36 @@ public class HomePageLogic {
                     "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
         return name;
+    }
+
+    // return list book data 
+    public static List<Book> returnListBookData() {
+        List<Book> l = new ArrayList<>();
+        try (Connection conn = DBConnection.getConnection()) {
+            String sql = "SELECT * FROM Books";
+            PreparedStatement prsm = conn.prepareStatement(sql);
+            ResultSet rs = prsm.executeQuery();
+
+            while (rs.next()) {
+
+                String id = rs.getString("id");
+                String t = rs.getString("title");
+                String a = rs.getString("author");
+                String p = rs.getString("publisher");
+                int py = rs.getInt("publishedYear");
+                String c = rs.getString("category");
+                int av = rs.getInt("availableCopies");
+                int to = rs.getInt("totalCopies");
+
+                Book b = new Book(id, t, a, p, py, c, av, to);
+                l.add(b);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Không thể tải dữ liệu từ cơ sở dữ liệu!",
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+        return l;
     }
 
     // return list borrow (thong tin muon tra cho user)
@@ -131,11 +157,11 @@ public class HomePageLogic {
                 Date dueDate = rs.getDate("dueDate");
                 Date returnDate = rs.getDate("returnDate");
                 String status = rs.getString("status");
-                
-                // tao doi tuong moi qua id
+
+                // tao doi tuong moi qua id : member va book
                 Member newMember = getMember(memberId);
                 Book newBook = getBook(bookId);
-                
+
                 // them vao list
                 Borrow newBorrow = new Borrow(id, newMember, newBook, borrowDate, returnDate, dueDate, status);
                 list.add(newBorrow);
@@ -291,7 +317,6 @@ public class HomePageLogic {
 //            }
 //              System.out.print(cnt);
 //    }
-    
 //    test borrow data 
 //     public static void main(String[] args) {
 //         List<Borrow> list = new ArrayList<>();

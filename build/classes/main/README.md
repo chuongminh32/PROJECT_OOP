@@ -44,6 +44,7 @@ library_management_app/
 │   ├── controllers/                   -> Các bộ điều khiển logic của ứng dụng
 │   │   ├── LogicController.java       -> Bộ điều khiển logic phân quyền người dùng
 │   │   ├── BookController.java        -> Bộ điều khiển logic quản lý sách
+│   │   ├── HomePageLogic.java        -> Bộ điều khiển logic quản lí trang chủ
 │   │   ├── MemberController.java      -> Bộ điều khiển logic quản lý thành viên
 │   │   ├── BorrowController.java      -> Bộ điều khiển logic quản lý mượn trả
 │   │   └── StaffController.java       -> Bộ điều khiển logic quản lý nhân viên

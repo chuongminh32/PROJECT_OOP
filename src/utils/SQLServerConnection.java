@@ -16,16 +16,17 @@ public class SQLServerConnection {
     // Thông tin cấu hình kết nối (có thể đưa ra file cấu hình để dễ dàng quản lý)
     private static final String DB_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final String DB_URL = "jdbc:sqlserver://localhost:1433";
-    private static final String DB_NAME = "Project";
+    private static final String DB_NAME = "Project_OOP";
     private static final String DB_USERNAME = "sa";
-    private static final String DB_PASSWORD = "2357";
-    private static final String CONNECTION_URL = DB_URL + ";databaseName=" + DB_NAME + ";encrypt=true;trustServerCertificate=true";
+    private static final String DB_PASSWORD = "123456";
+    private static final String CONNECTION_URL = DB_URL + ";databaseName=" + DB_NAME
+            + ";encrypt=true;trustServerCertificate=true";
 
     /**
      * Khởi tạo kết nối đến cơ sở dữ liệu SQL Server.
      *
      * @return Kết nối đến cơ sở dữ liệu.
-     * @throws SQLException nếu có lỗi xảy ra trong quá trình kết nối.
+     * @throws SQLException           nếu có lỗi xảy ra trong quá trình kết nối.
      * @throws ClassNotFoundException nếu không tìm thấy lớp Driver cần thiết.
      */
     public static Connection initializeDatabase() throws SQLException, ClassNotFoundException {

@@ -8,12 +8,15 @@ import controllers.HomePageLogic;
 import static controllers.HomePageLogic.getId;
 import java.sql.Connection;
 import models.Borrow;
+import models.Book;
 import utils.DBConnection;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.util.ArrayList;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import java.sql.*;
+import java.time.LocalDate;
 
 /**
  *
@@ -21,7 +24,8 @@ import javax.swing.JOptionPane;
  */
 public class HomePageUser extends javax.swing.JFrame {
 
-    private DefaultTableModel tableModel = new DefaultTableModel();
+    private DefaultTableModel tableModelBorrow = new DefaultTableModel();
+    private DefaultTableModel tableModelBook = new DefaultTableModel();
     private String userName;
 
     /**
@@ -33,8 +37,13 @@ public class HomePageUser extends javax.swing.JFrame {
         setUsername();
         displayCount();
 
-        tableThongTinUser.setModel(tableModel);
+        tableThongTinUser.setModel(tableModelBorrow);
+        tableThongTinSach.setModel(tableModelBook);
+        tableMuonSach.setModel(tableModelBook);
+
         displayBorrowUser();
+        displayBookInfo();
+        BorrowBook();
     }
 
     /**
@@ -53,7 +62,7 @@ public class HomePageUser extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
-        ThanhVienButtonUser = new javax.swing.JButton();
+        SachButton = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         PanelHomeUser = new javax.swing.JPanel();
         HomeButtonUser = new javax.swing.JButton();
@@ -76,12 +85,15 @@ public class HomePageUser extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         contentPanel = new javax.swing.JPanel();
         MuonSachPanelUser = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        ThongTinPanelUser = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tableMuonSach = new javax.swing.JTable();
+        btnMuonSach = new javax.swing.JButton();
+        MuonTraPanelUser = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableThongTinUser = new javax.swing.JTable();
-        ThanhVienPanelUser = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        ThongTinSachPanelUser = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tableThongTinSach = new javax.swing.JTable();
         HomePanelUser = new javax.swing.JPanel();
         jPanel20 = new javax.swing.JPanel();
         jLabel20 = new javax.swing.JLabel();
@@ -133,33 +145,33 @@ public class HomePageUser extends javax.swing.JFrame {
         jPanel17.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         jPanel17.setPreferredSize(new java.awt.Dimension(182, 41));
 
-        ThanhVienButtonUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        ThanhVienButtonUser.setText("Thành viên");
-        ThanhVienButtonUser.setBorder(null);
-        ThanhVienButtonUser.setBorderPainted(false);
-        ThanhVienButtonUser.setContentAreaFilled(false);
-        ThanhVienButtonUser.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        ThanhVienButtonUser.setMaximumSize(new java.awt.Dimension(89, 20));
-        ThanhVienButtonUser.setMinimumSize(new java.awt.Dimension(89, 20));
-        ThanhVienButtonUser.setPreferredSize(new java.awt.Dimension(69, 20));
-        ThanhVienButtonUser.addActionListener(new java.awt.event.ActionListener() {
+        SachButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        SachButton.setText("Thông tin sách");
+        SachButton.setBorder(null);
+        SachButton.setBorderPainted(false);
+        SachButton.setContentAreaFilled(false);
+        SachButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        SachButton.setMaximumSize(new java.awt.Dimension(89, 20));
+        SachButton.setMinimumSize(new java.awt.Dimension(89, 20));
+        SachButton.setPreferredSize(new java.awt.Dimension(69, 20));
+        SachButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ThanhVienButtonUserActionPerformed(evt);
+                SachButtonActionPerformed(evt);
             }
         });
 
-        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/member.png"))); // NOI18N
+        jLabel18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/book_menu.png"))); // NOI18N
 
         javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel17Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(34, Short.MAX_VALUE)
                 .addComponent(jLabel18)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ThanhVienButtonUser, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SachButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -167,7 +179,7 @@ public class HomePageUser extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addGroup(jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(ThanhVienButtonUser, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
+                    .addComponent(SachButton, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)))
         );
 
         PanelHomeUser.setBackground(new java.awt.Color(255, 255, 255));
@@ -212,7 +224,7 @@ public class HomePageUser extends javax.swing.JFrame {
 
         ThongTinButtonUser.setBackground(new java.awt.Color(235, 231, 242));
         ThongTinButtonUser.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        ThongTinButtonUser.setText("Thông tin ");
+        ThongTinButtonUser.setText("Mượn trả");
         ThongTinButtonUser.setBorder(null);
         ThongTinButtonUser.setBorderPainted(false);
         ThongTinButtonUser.setContentAreaFilled(false);
@@ -233,11 +245,11 @@ public class HomePageUser extends javax.swing.JFrame {
         jPanel21Layout.setHorizontalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addGap(33, 33, 33)
                 .addComponent(jLabel17)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ThongTinButtonUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jPanel21Layout.setVerticalGroup(
             jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -275,11 +287,11 @@ public class HomePageUser extends javax.swing.JFrame {
         jPanel26Layout.setHorizontalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel26Layout.createSequentialGroup()
-                .addContainerGap(28, Short.MAX_VALUE)
+                .addContainerGap(34, Short.MAX_VALUE)
                 .addComponent(jLabel28)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(MuonSachButtonUser, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addGap(38, 38, 38))
         );
         jPanel26Layout.setVerticalGroup(
             jPanel26Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -480,26 +492,78 @@ public class HomePageUser extends javax.swing.JFrame {
         contentPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
         contentPanel.setLayout(new java.awt.CardLayout());
 
-        jLabel4.setText("Mượn sách");
+        tableMuonSach.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Tên sách", "Tác giả", "Nhà xuất bản", "Năm xuất bản", "Thể loại", "số sách hiện có", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableMuonSach.getTableHeader().setReorderingAllowed(false);
+        jScrollPane3.setViewportView(tableMuonSach);
+        if (tableMuonSach.getColumnModel().getColumnCount() > 0) {
+            tableMuonSach.getColumnModel().getColumn(0).setMinWidth(150);
+            tableMuonSach.getColumnModel().getColumn(1).setPreferredWidth(120);
+            tableMuonSach.getColumnModel().getColumn(2).setPreferredWidth(123);
+            tableMuonSach.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tableMuonSach.getColumnModel().getColumn(4).setPreferredWidth(120);
+            tableMuonSach.getColumnModel().getColumn(5).setMinWidth(50);
+            tableMuonSach.getColumnModel().getColumn(5).setPreferredWidth(50);
+        }
+
+        btnMuonSach.setText("Xác nhận");
+        btnMuonSach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMuonSachActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout MuonSachPanelUserLayout = new javax.swing.GroupLayout(MuonSachPanelUser);
         MuonSachPanelUser.setLayout(MuonSachPanelUserLayout);
         MuonSachPanelUserLayout.setHorizontalGroup(
             MuonSachPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MuonSachPanelUserLayout.createSequentialGroup()
-                .addGap(205, 205, 205)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(636, Short.MAX_VALUE))
+                .addGroup(MuonSachPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(MuonSachPanelUserLayout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 874, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(MuonSachPanelUserLayout.createSequentialGroup()
+                        .addGap(334, 334, 334)
+                        .addComponent(btnMuonSach)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
         MuonSachPanelUserLayout.setVerticalGroup(
             MuonSachPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(MuonSachPanelUserLayout.createSequentialGroup()
-                .addGap(157, 157, 157)
-                .addComponent(jLabel4)
-                .addContainerGap(448, Short.MAX_VALUE))
+                .addGap(40, 40, 40)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(btnMuonSach)
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         contentPanel.add(MuonSachPanelUser, "card6");
+
+        MuonTraPanelUser.setBackground(new java.awt.Color(255, 255, 255));
 
         tableThongTinUser.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         tableThongTinUser.setModel(new javax.swing.table.DefaultTableModel(
@@ -513,12 +577,19 @@ public class HomePageUser extends javax.swing.JFrame {
                 {null, null, null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4", "Tilte 5", "Title 6"
+                "Tên thành viên", "Tên sách", "Ngày mượn", "Ngày trả dự kiến", "Ngày trả thực tế", "Trạng thái"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -543,45 +614,81 @@ public class HomePageUser extends javax.swing.JFrame {
             tableThongTinUser.getColumnModel().getColumn(5).setMaxWidth(130);
         }
 
-        javax.swing.GroupLayout ThongTinPanelUserLayout = new javax.swing.GroupLayout(ThongTinPanelUser);
-        ThongTinPanelUser.setLayout(ThongTinPanelUserLayout);
-        ThongTinPanelUserLayout.setHorizontalGroup(
-            ThongTinPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ThongTinPanelUserLayout.createSequentialGroup()
+        javax.swing.GroupLayout MuonTraPanelUserLayout = new javax.swing.GroupLayout(MuonTraPanelUser);
+        MuonTraPanelUser.setLayout(MuonTraPanelUserLayout);
+        MuonTraPanelUserLayout.setHorizontalGroup(
+            MuonTraPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MuonTraPanelUserLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 852, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(37, Short.MAX_VALUE))
         );
-        ThongTinPanelUserLayout.setVerticalGroup(
-            ThongTinPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ThongTinPanelUserLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(143, Short.MAX_VALUE))
+        MuonTraPanelUserLayout.setVerticalGroup(
+            MuonTraPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(MuonTraPanelUserLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(321, Short.MAX_VALUE))
         );
 
-        contentPanel.add(ThongTinPanelUser, "card5");
+        contentPanel.add(MuonTraPanelUser, "card5");
 
-        jLabel5.setText("Thành viên");
+        tableThongTinSach.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
+            },
+            new String [] {
+                "Tên sách", "Tác giả", "Nhà xuất bản", "Năm xuất bản", "Thể loại", "số sách hiện có"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
 
-        javax.swing.GroupLayout ThanhVienPanelUserLayout = new javax.swing.GroupLayout(ThanhVienPanelUser);
-        ThanhVienPanelUser.setLayout(ThanhVienPanelUserLayout);
-        ThanhVienPanelUserLayout.setHorizontalGroup(
-            ThanhVienPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ThanhVienPanelUserLayout.createSequentialGroup()
-                .addGap(249, 249, 249)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(599, Short.MAX_VALUE))
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tableThongTinSach.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tableThongTinSach);
+        if (tableThongTinSach.getColumnModel().getColumnCount() > 0) {
+            tableThongTinSach.getColumnModel().getColumn(0).setMinWidth(150);
+            tableThongTinSach.getColumnModel().getColumn(1).setPreferredWidth(120);
+            tableThongTinSach.getColumnModel().getColumn(2).setPreferredWidth(123);
+            tableThongTinSach.getColumnModel().getColumn(3).setPreferredWidth(50);
+            tableThongTinSach.getColumnModel().getColumn(4).setPreferredWidth(120);
+            tableThongTinSach.getColumnModel().getColumn(5).setMinWidth(50);
+            tableThongTinSach.getColumnModel().getColumn(5).setPreferredWidth(50);
+        }
+
+        javax.swing.GroupLayout ThongTinSachPanelUserLayout = new javax.swing.GroupLayout(ThongTinSachPanelUser);
+        ThongTinSachPanelUser.setLayout(ThongTinSachPanelUserLayout);
+        ThongTinSachPanelUserLayout.setHorizontalGroup(
+            ThongTinSachPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ThongTinSachPanelUserLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 874, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
-        ThanhVienPanelUserLayout.setVerticalGroup(
-            ThanhVienPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ThanhVienPanelUserLayout.createSequentialGroup()
-                .addGap(203, 203, 203)
-                .addComponent(jLabel5)
-                .addContainerGap(402, Short.MAX_VALUE))
+        ThongTinSachPanelUserLayout.setVerticalGroup(
+            ThongTinSachPanelUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ThongTinSachPanelUserLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 493, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(113, Short.MAX_VALUE))
         );
 
-        contentPanel.add(ThanhVienPanelUser, "card4");
+        contentPanel.add(ThongTinSachPanelUser, "card4");
 
         HomePanelUser.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -760,7 +867,7 @@ public class HomePageUser extends javax.swing.JFrame {
                     .addComponent(jPanel22, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel20, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(389, Short.MAX_VALUE))
+                .addContainerGap(414, Short.MAX_VALUE))
         );
 
         contentPanel.add(HomePanelUser, "card2");
@@ -830,7 +937,7 @@ public class HomePageUser extends javax.swing.JFrame {
             "Tên thành viên", "Tên sách", "Ngày mượn", "Ngày trả dự kiến", "Ngày trả thực tế", "Trạng thái"
         };
 
-        tableModel.setColumnIdentifiers(colNames);
+        tableModelBorrow.setColumnIdentifiers(colNames);
         try (Connection conn = DBConnection.getConnection()) {
             // chi hien thi nhung dong du lieu co id cua user trong Borrow table
             String memberId = HomePageLogic.getId("Members", this.userName);
@@ -847,12 +954,71 @@ public class HomePageUser extends javax.swing.JFrame {
                 rows[4] = String.valueOf(Br.getReturnDate());
                 rows[5] = String.valueOf(Br.getStatus());
 
-                tableModel.addRow(rows);
+                tableModelBorrow.addRow(rows);
             }
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Không thể tải dữ liệu từ cơ sở dữ liệu!",
                     "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void displayBookInfo() {
+        String colNames[] = {
+            "Tên sách", "Tác giả", "Nhà xuất bản", "Năm xuất bản", "Thể loại", "Số sách hiện có"
+        };
+
+        tableModelBook.setColumnIdentifiers(colNames);
+        try (Connection conn = DBConnection.getConnection()) {
+            List<Book> list = HomePageLogic.returnListBookData();
+
+            for (int i = 0; i < list.size(); i++) {
+                Book b = list.get(i);
+                String rows[] = new String[6];
+
+                rows[0] = b.getTitle();
+                rows[1] = b.getAuthor();
+                rows[2] = b.getPublisher();
+                rows[3] = String.valueOf(b.getPublishedYear());
+                rows[4] = b.getCategory();
+                rows[5] = String.valueOf(b.getAvailableCopies());
+
+                tableModelBook.addRow(rows);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Không thể tải dữ liệu từ cơ sở dữ liệu!",
+                    "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void BorrowBook() {
+        String[] colNames = {"Tên sách", "Tác giả", "Nhà xuất bản", "Năm xuất bản", "Thể loại", "Số sách hiện có", "Chọn"};
+        DefaultTableModel tableModel = new DefaultTableModel(colNames, 0) {
+            @Override
+            public Class<?> getColumnClass(int columnIndex) {
+                return columnIndex == 6 ? Boolean.class : String.class; // Cột "Chọn" là kiểu Boolean
+            }
+        };
+
+        tableMuonSach.setModel(tableModel);
+
+        try (Connection conn = DBConnection.getConnection()) {
+            List<Book> books = HomePageLogic.returnListBookData();
+
+            for (Book book : books) {
+                Object[] row = new Object[7];
+                row[0] = book.getTitle();
+                row[1] = book.getAuthor();
+                row[2] = book.getPublisher();
+                row[3] = String.valueOf(book.getPublishedYear());
+                row[4] = book.getCategory();
+                row[5] = String.valueOf(book.getAvailableCopies());
+                row[6] = false; // Mặc định checkbox chưa được chọn
+                tableModel.addRow(row);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi tải dữ liệu!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -868,6 +1034,7 @@ public class HomePageUser extends javax.swing.JFrame {
         int cnt3 = HomePageLogic.getCountUser("Borrow", memberId, "Chua tra");
         countChuaTra.setText(String.valueOf(cnt3));
     }
+
     private void logOutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logOutBtnActionPerformed
         int response = javax.swing.JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận",
                 javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE);
@@ -883,17 +1050,10 @@ public class HomePageUser extends javax.swing.JFrame {
     private void setUsername() {
         userNameLabel.setText(this.userName);
     }
+
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void ThanhVienButtonUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThanhVienButtonUserActionPerformed
-        TitlePanelUser.setText("Thành viên");
-        contentPanel.removeAll();
-        contentPanel.add(ThanhVienPanelUser);
-        contentPanel.repaint();
-        contentPanel.revalidate();
-    }//GEN-LAST:event_ThanhVienButtonUserActionPerformed
 
     private void HomeButtonUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HomeButtonUserActionPerformed
         TitlePanelUser.setText("Trang chủ");
@@ -905,9 +1065,9 @@ public class HomePageUser extends javax.swing.JFrame {
     }//GEN-LAST:event_HomeButtonUserActionPerformed
 
     private void ThongTinButtonUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ThongTinButtonUserActionPerformed
-        TitlePanelUser.setText("Thông tin sách ");
+        TitlePanelUser.setText("Thông tin mượn trả ");
         contentPanel.removeAll();
-        contentPanel.add(ThongTinPanelUser);
+        contentPanel.add(MuonTraPanelUser);
         contentPanel.repaint();
         contentPanel.revalidate();
     }//GEN-LAST:event_ThongTinButtonUserActionPerformed
@@ -919,6 +1079,62 @@ public class HomePageUser extends javax.swing.JFrame {
         contentPanel.repaint();
         contentPanel.revalidate();
     }//GEN-LAST:event_MuonSachButtonUserActionPerformed
+
+    private void SachButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SachButtonActionPerformed
+        TitlePanelUser.setText("Thông tin sách");
+        contentPanel.removeAll();
+        contentPanel.add(ThongTinSachPanelUser);
+        contentPanel.repaint();
+        contentPanel.revalidate();
+    }//GEN-LAST:event_SachButtonActionPerformed
+
+    private void btnMuonSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuonSachActionPerformed
+       try (Connection conn = DBConnection.getConnection()) {
+        String sql = "INSERT INTO Borrow (bookId, memberId, borrowDate, dueDate, returnDate, status) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            DefaultTableModel model = (DefaultTableModel) tableMuonSach.getModel();
+            int rowCount = model.getRowCount();
+
+            // Lấy mã memberId từ giao diện hoặc logic đăng nhập
+            String memberId = getId("Members", this.userName); // Tùy chỉnh để lấy thông tin memberId hiện tại
+            if (memberId == null || memberId.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Không thể xác định mã thành viên!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int selectedCount = 0;
+            for (int i = 0; i < rowCount; i++) {
+                Boolean isChecked = (Boolean) model.getValueAt(i, 6); // Cột "Chọn"
+                if (isChecked != null && isChecked) {
+                    // Lấy thông tin dòng
+                    String bookId = (String) model.getValueAt(i, 0); // Giả sử cột đầu tiên là mã sách
+                    LocalDate borrowDate = LocalDate.now(); // Ngày mượn
+                    LocalDate dueDate = borrowDate.plusDays(14); // Ngày hạn trả (14 ngày sau)
+
+                    // Thêm thông tin vào bảng Borrow
+                    pstmt.setString(1, bookId);
+                    pstmt.setString(2, memberId);
+                    pstmt.setDate(3, java.sql.Date.valueOf(borrowDate));
+                    pstmt.setDate(4, java.sql.Date.valueOf(dueDate));
+                    pstmt.setNull(5, java.sql.Types.DATE); // returnDate là NULL
+                    pstmt.setString(6, "Chưa trả"); // Trạng thái là "Chưa trả"
+                    pstmt.addBatch();
+
+                    selectedCount++;
+                }
+            }
+
+            if (selectedCount > 0) {
+                pstmt.executeBatch();
+                JOptionPane.showMessageDialog(this, "Đã mượn thành công " + selectedCount + " sách!");
+            } else {
+                JOptionPane.showMessageDialog(this, "Bạn chưa chọn sách nào!");
+            }
+        }
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Lỗi khi mượn sách: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnMuonSachActionPerformed
 
     /**
      * @param args the command line arguments
@@ -935,22 +1151,21 @@ public class HomePageUser extends javax.swing.JFrame {
     private javax.swing.JPanel HomePanelUser;
     private javax.swing.JButton MuonSachButtonUser;
     private javax.swing.JPanel MuonSachPanelUser;
+    private javax.swing.JPanel MuonTraPanelUser;
     private javax.swing.JPanel PanelHomeUser;
-    private javax.swing.JButton ThanhVienButtonUser;
-    private javax.swing.JPanel ThanhVienPanelUser;
+    private javax.swing.JButton SachButton;
     private javax.swing.JButton ThongTinButtonUser;
-    private javax.swing.JPanel ThongTinPanelUser;
+    private javax.swing.JPanel ThongTinSachPanelUser;
     private javax.swing.JLabel TitlePanelUser;
+    private javax.swing.JButton btnMuonSach;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JLabel countBooks;
     private javax.swing.JLabel countChuaTra;
     private javax.swing.JLabel countDaTra;
-    private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -964,8 +1179,6 @@ public class HomePageUser extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -978,14 +1191,17 @@ public class HomePageUser extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel22;
     private javax.swing.JPanel jPanel23;
     private javax.swing.JPanel jPanel24;
-    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel26;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JButton logOutBtn;
+    private javax.swing.JTable tableMuonSach;
+    private javax.swing.JTable tableThongTinSach;
     private javax.swing.JTable tableThongTinUser;
     private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables

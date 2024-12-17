@@ -37,10 +37,11 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import controllers.MemberController;
+import java.sql.SQLException;
 
 public class MainFrame extends JFrame {
 
-    public MainFrame() {
+    public MainFrame() throws SQLException, ClassNotFoundException {
         setTitle("Library Management System");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,7 +51,7 @@ public class MainFrame extends JFrame {
         MemberController memberController = new MemberController();
 
         // Tạo và thêm MemberPanel vào cửa sổ chính
-        MemberManage memberPanel = new MemberManage(memberController);
+        MemberManage memberPanel = new MemberManage();
         add(memberPanel, BorderLayout.CENTER);
 
         // setVisible(true); // Hiển thị cửa sổ

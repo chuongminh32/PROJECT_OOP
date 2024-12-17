@@ -28,6 +28,7 @@ public class BookController {
             ResultSet resultSet = statement.executeQuery()) {
             List <Book> books = new ArrayList<>();
 
+            
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
                 String title = resultSet.getString("title");

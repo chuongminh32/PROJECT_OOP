@@ -14,6 +14,7 @@ public class StaffController {
     public List<Staff> getAllStaffs() throws SQLException {
         String query = "SELECT * FROM Staff";
 
+        
         try (Connection connection = DBConnection.getConnection();
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery()) {

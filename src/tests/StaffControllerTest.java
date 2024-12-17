@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 
 public class StaffControllerTest {
 
+    
     public static void main(String[] args) throws SQLException, ClassNotFoundException{
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

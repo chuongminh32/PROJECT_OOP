@@ -21,6 +21,7 @@ import models.Book;
  */
 public class BookManager extends javax.swing.JFrame {
     
+    
     private BookController bookcontroller = new BookController();
     private DefaultTableModel dtablemodel;
     private boolean isEditing = false;

@@ -9,6 +9,7 @@ package models;
  *
  * @author chuon
  */
+
 public class Book {
     private String id;            // Mã sách (duy nhất)
     private String title;         // Tiêu đề sách

@@ -11,6 +11,7 @@ public class Staff {
     private Date hire_date;     //Ngày bắt đầu làm viêc
     private String password;
 
+    
     // Constructor
     public Staff() {
     }

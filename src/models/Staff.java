@@ -10,7 +10,6 @@ public class Staff {
     private String position;          // Vai trò (ví dụ: Admin, Librarian)
     private Date hire_date;     //Ngày bắt đầu làm viêc
     private String password;
-
     
     // Constructor
     public Staff() {

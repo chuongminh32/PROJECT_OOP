@@ -13,7 +13,6 @@ import java.sql.ResultSet; // lưu dữ liệu db
 
 import models.Book; // import class Book
 import utils.DBConnection; // import class DBConnection
-
 /**
  *
  * @author chuon

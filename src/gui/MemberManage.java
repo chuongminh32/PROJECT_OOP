@@ -8,7 +8,6 @@ import java.util.List;
 import utils.DBConnection;
 
 import controllers.MemberController;
-import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -33,20 +32,20 @@ public class MemberManage extends javax.swing.JFrame {
         tableModel = new DefaultTableModel() {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; 
+                return false;
             }
         };
         String[] cols = {"ID", "NAME", "EMAIL", "PHONE", "MEMBERSHIP DATE", "PASSWORD"};
         tableModel.setColumnIdentifiers(cols);
 //        Table.setEnabled(false);
         Table.setModel(tableModel);
-        
+
         Table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TableMouseClicked(evt);
             }
         });
-        
+
 //        Table.getColumnModel().getColumn(2).setPreferredWidth(400);
         showData();
         javax.swing.table.TableColumn emailColumn = Table.getColumnModel().getColumn(2);
@@ -69,7 +68,7 @@ public class MemberManage extends javax.swing.JFrame {
             rows[3] = mem.getPhone();
             rows[4] = mem.getMembershipDate().toString();
             rows[5] = mem.getPassword();
-            
+
             tableModel.addRow(rows);
         }
     }
@@ -115,7 +114,7 @@ public class MemberManage extends javax.swing.JFrame {
         }
         showData(); // Làm mới lại bảng
     }
-    
+
     public void run() throws SQLException, ClassNotFoundException {
         JFrame frame = new JFrame("Manage Users");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -314,7 +313,7 @@ public class MemberManage extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
+
     private void AddButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddButtonMouseClicked
         // TODO add your handling code here:
         String id = jTextField1.getText().trim(); // idTextField là JTextField chứa ID
@@ -331,28 +330,28 @@ public class MemberManage extends javax.swing.JFrame {
         }
 
         try {
-            AddMember(id, name, email, phone, membershipDate, password);   
+            AddMember(id, name, email, phone, membershipDate, password);
         } catch (SQLException ex) {
             Logger.getLogger(MemberManage.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MemberManage.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_AddButtonMouseClicked
 
     private void DelButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DelButtonMouseClicked
         // TODO add your handling code here:
-    
+
         String id = jTextField1.getText().trim();
 
         if (id.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập ID của thành viên cần xóa.", 
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập ID của thành viên cần xóa.",
                     "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        int confirm = JOptionPane.showConfirmDialog(this, 
-            "Bạn có chắc chắn muốn xóa thành viên với ID: " + id + "?", 
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Bạn có chắc chắn muốn xóa thành viên với ID: " + id + "?",
             "Xác nhận xóa", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 
         if (confirm == JOptionPane.YES_OPTION) {
@@ -397,9 +396,9 @@ public class MemberManage extends javax.swing.JFrame {
 
     private void TableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableMouseClicked
         // TODO add your handling code here:
-        int selectedRow = Table.getSelectedRow(); 
-    
-        if (selectedRow != -1) { 
+        int selectedRow = Table.getSelectedRow();
+
+        if (selectedRow != -1) {
             jTextField1.setText(Table.getValueAt(selectedRow, 0).toString()); // ID
             jTextField2.setText(Table.getValueAt(selectedRow, 1).toString()); // NAME
             jTextField3.setText(Table.getValueAt(selectedRow, 2).toString()); // EMAIL
@@ -416,7 +415,7 @@ public class MemberManage extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

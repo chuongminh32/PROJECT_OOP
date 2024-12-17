@@ -31,6 +31,7 @@ public class Member {
                 ", Phone: " + phone +
                 ", membershipDate: " + membershipDate +
                 ", password: " + password;
+
     }
 
     // Getters and setters

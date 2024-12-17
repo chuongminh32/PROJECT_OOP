@@ -5,8 +5,8 @@
 package gui;
 
 import javax.swing.JOptionPane;
-import controllers.AuthController;
-import javax.swing.*;
+//import controllers.AuthController;
+//import javax.swing.*;
 
 /**
  *
@@ -287,29 +287,29 @@ public class RegisterPage extends javax.swing.JFrame {
         String email = emailRegister.getText();
         String phone = phoneRegister.getText();
 
-        boolean isRegisterSuccess = AuthController.register(name, password, email, phone);
-        handleRegisterSuccess(isRegisterSuccess);
+//        boolean isRegisterSuccess = AuthController.register(name, password, email, phone);
+//        handleRegisterSuccess(isRegisterSuccess);
     }
 
     // Xử lý thông báo khi đăng kí thành công hoặc thất bại
     private void handleRegisterSuccess(boolean isRegisterSuccess) {
         if (isRegisterSuccess) {
             JOptionPane.showMessageDialog(null, "Đăng kí thành công!, Chuyển trang Đăng Nhập", "Thành công", JOptionPane.INFORMATION_MESSAGE);
-            LoginPage login = new LoginPage();
-            login.setVisible(true);
-            login.pack();
-            login.setLocationRelativeTo(null);
-            this.dispose();
+//            LoginPage login = new LoginPage();
+//            login.setVisible(true);
+//            login.pack();
+//            login.setLocationRelativeTo(null);
+//            this.dispose();
         } else {
             JOptionPane.showMessageDialog(null, "Đăng kí thất bại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btn_registerActionPerformed
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
-        LoginPage login = new LoginPage();
-        login.setVisible(true);
-        login.pack();
-        login.setLocationRelativeTo(null);
+//        LoginPage login = new LoginPage();
+//        login.setVisible(true);
+//        login.pack();
+//        login.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btn_loginActionPerformed
 

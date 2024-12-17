@@ -24,6 +24,7 @@ public class StaffManager extends javax.swing.JFrame {
     private StaffController staffcontroller = new StaffController();
     private DefaultTableModel dtablemodel;
     private boolean isEditing = false;
+    
 //    Staff_Table stafftable = new Staff_Table();
     
     /**

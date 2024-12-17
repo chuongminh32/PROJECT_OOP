@@ -4,13 +4,17 @@
  */
 package gui;
 import controllers.StaffController;
+import java.awt.BorderLayout;
 import java.util.List;
 import java.sql.SQLException; // lỗi kết nối sql
 import java.sql.Date;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 
@@ -74,7 +78,8 @@ public class StaffManager extends javax.swing.JFrame {
         this.phoneField.setText((String) this.Staff_Table.getValueAt(row, 3));
         this.positionField.setText((String) this.Staff_Table.getValueAt(row, 4));
         this.hireDateField.setText(this.Staff_Table.getValueAt(row, 5).toString()); // Chuyển đổi giá trị ngày tháng thành chuỗi
-        this.PasswordField.setText((String) this.Staff_Table.getValueAt(row, 6));
+
+        
     }
     
     private boolean is_nonnull_field(){
@@ -126,9 +131,12 @@ public class StaffManager extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        jStaffField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -172,6 +180,14 @@ public class StaffManager extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(58, 93, 156));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setBackground(new java.awt.Color(107, 173, 206));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
+        jLabel1.setPreferredSize(new java.awt.Dimension(30, 16));
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 40, 40));
+
         jLabel3.setBackground(new java.awt.Color(107, 173, 206));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -189,6 +205,14 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel4.setPreferredSize(new java.awt.Dimension(30, 16));
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 130, 30));
 
+        jStaffField.setText("Find staff");
+        jStaffField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jStaffFieldActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jStaffField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 180, 40));
+
         jLabel6.setBackground(new java.awt.Color(107, 173, 206));
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -196,13 +220,21 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel6.setPreferredSize(new java.awt.Dimension(30, 16));
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 130, 30));
 
+        jLabel7.setBackground(new java.awt.Color(107, 173, 206));
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/admin.png"))); // NOI18N
+        jLabel7.setPreferredSize(new java.awt.Dimension(30, 16));
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, 30));
+
         jPanel2.setBackground(new java.awt.Color(107, 173, 206));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 930, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -327,6 +359,7 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel12.setText("HIRE DATE:");
 
         hireDateField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        hireDateField.setText("yyyy-mm-dd");
         hireDateField.setToolTipText("");
         hireDateField.setAutoscrolls(false);
         hireDateField.setEnabled(false);
@@ -340,7 +373,7 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel16.setText("PASSWORD:");
 
         PasswordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        PasswordField.setToolTipText("");
+        PasswordField.setText("jPasswordField1");
         PasswordField.setEnabled(false);
 
         delete_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -507,6 +540,10 @@ public class StaffManager extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jStaffFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStaffFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jStaffFieldActionPerformed
+
     private void delete_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_buttonActionPerformed
         /*BUTTON XÓA STAFF RA KHỎI DATABASE
         - Có thể xóa từng bản ghi hoặc nhiều bản ghi cùng lúc
@@ -545,7 +582,6 @@ public class StaffManager extends javax.swing.JFrame {
 
     private void hireDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hireDateFieldActionPerformed
         // TODO add your handling code here:
-        
     }//GEN-LAST:event_hireDateFieldActionPerformed
 
     private void phoneFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneFieldActionPerformed
@@ -671,33 +707,23 @@ public class StaffManager extends javax.swing.JFrame {
     }//GEN-LAST:event_update_buttonActionPerformed
 
     private void search_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_buttonActionPerformed
-        // BUTTON TÌM KIẾM THEO CÁC TRƯỜNG, KHÔNG PHÂN BIỆT HOA THƯỜNG
-        if (!this.isEditing){
-            this.set_field(true);
-            this.isEditing = true;
-        } else {
-            this.isEditing = false;
-            this.set_field(false);
-            String id = this.idField.getText();
-            String name = this.nameField.getText();
-            String email = this.emailField.getText();
-            String phone = this.phoneField.getText();
-            String position = this.positionField.getText();
-            char[] cpassword = this.PasswordField.getPassword();
-            String password = new String(cpassword);
-            String hireDate = this.hireDateField.getText();
-
-
-            List<Staff> staffs = null;
-            try {
-                staffs = this.staffcontroller.findStaffByPartialFields(id, name, email, phone, position, hireDate, password);
-
-                this.setData(staffs);
-            } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+        // TODO add your handling code here:
+        this.set_field(false);
+        this.nameField.setEnabled(true);
+        String name = this.nameField.getText();
+        List<Staff> staffs = null;
+        try {
+            if (name.trim().length() == 0) {
+            staffs = this.staffcontroller.getAllStaffs();
+            } else {
+            staffs = (List<Staff>) this.staffcontroller.find_staff_byname(name);
             }
+            
+            this.setData(staffs);
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-                
+        
 
     }//GEN-LAST:event_search_buttonActionPerformed
 
@@ -706,42 +732,42 @@ public class StaffManager extends javax.swing.JFrame {
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
-//    public static void main(String args[]) throws SQLException, ClassNotFoundException {
-//        /* Set the Nimbus look and feel */
-//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-//         */
-//        try {
-//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-//                if ("Nimbus".equals(info.getName())) {
-//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-//                    break;
-//                }
-//            }
-//        } catch (ClassNotFoundException ex) {
-//            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (InstantiationException ex) {
-//            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (IllegalAccessException ex) {
-//            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-//            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-//        }
-//        //</editor-fold>
-//
-//        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                try {
-//                    new StaffManager().setVisible(true);
-//                    
-//                } catch (SQLException | ClassNotFoundException ex) {
-//                    Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        });
-//    }
+    public static void main(String args[]) throws SQLException, ClassNotFoundException {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new StaffManager().setVisible(true);
+                    
+                } catch (SQLException | ClassNotFoundException ex) {
+                    Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField PasswordField;
@@ -751,6 +777,7 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField hireDateField;
     private javax.swing.JTextField idField;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel16;
@@ -759,6 +786,7 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -766,6 +794,7 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jStaffField;
     private javax.swing.JTextField nameField;
     private javax.swing.JTextField phoneField;
     private javax.swing.JTextField positionField;

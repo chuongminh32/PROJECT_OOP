@@ -1,50 +1,34 @@
 package tests;
 
-
-
+import java.util.List;
+import java.util.ArrayList;
+import java.sql.Connection; // kết nối db
 import java.sql.SQLException; // lỗi kết nối sql
-
-import gui.StaffManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.sql.Date;
+import models.Staff; // import class Staff
+import utils.DBConnection; // import class DBConnection
+import controllers.StaffController;
 
 public class StaffControllerTest {
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException{
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new StaffManager().setVisible(true);
-                    
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
+        Connection conn = DBConnection.getConnection();
+        //KIỂM THỬ XUẤT THÔNG TIN
+        StaffController sc = new StaffController();
+//        ArrayList<Staff> list = new ArrayList();
+//        list = (ArrayList<Staff>) sc.getAllStaffs();
+//        int stt = 1;
+//        for (int i = 0; i < list.size(); i++){
+//            System.out.print(stt +"\t");
+//            Staff staff = list.get(i);
+//            System.out.print(staff.toString());
+//            System.out.println();
+//            stt++;
+//        }
+        Date date = Date.valueOf("2024-12-14");
+        Staff staff = new Staff("S099","Nguyen Admin","nguyen.admin@staff.com","0123456788","Admin",date,"nguyen123");
+        sc.updateStaff(staff, "S099");
+//          sc.deleteStaff("S099");
         
     }
             

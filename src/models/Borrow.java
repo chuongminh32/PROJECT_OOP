@@ -3,7 +3,7 @@ package models;
 import java.util.Date;
 
 public class Borrow {
-
+   
     private int id;      // Mã mượn (duy nhất)
     private Member memberId;      // Mã thành viên (người mượn)
     private Book bookId;        // Mã sách (được mượn)
@@ -30,6 +30,7 @@ public class Borrow {
     // Print member information
     public String toString() {
         return "ID: " + id
+
                 + ", Ten thanh vien: " + memberId.getName()
                 + ", Ten sach: " + bookId.getTitle()
                 + ", Ngay muon: " + borrowDate
@@ -38,7 +39,6 @@ public class Borrow {
                 + ", Trang thai: " + status;
     }
 
-//    // Getters and Setters
     /**
      * @return the id
      */
@@ -51,34 +51,6 @@ public class Borrow {
      */
     public void setId(int id) {
         this.id = id;
-    }
-
-    /**
-     * @return the memberId
-     */
-    public Member getMemberId() {
-        return memberId;
-    }
-
-    /**
-     * @param memberId the memberId to set
-     */
-    public void setMemberId(Member memberId) {
-        this.memberId = memberId;
-    }
-
-    /**
-     * @return the bookId
-     */
-    public Book getBookId() {
-        return bookId;
-    }
-
-    /**
-     * @param bookId the bookId to set
-     */
-    public void setBookId(Book bookId) {
-        this.bookId = bookId;
     }
 
     /**

@@ -4,7 +4,7 @@
  */
 package gui;
 
-//import controllers.HomePageLogic;
+import controllers.HomePageLogic;
 
 /**
  *
@@ -24,7 +24,7 @@ public class HomePageAdmin extends javax.swing.JFrame {
         this.userName = userName;
         initComponents();
         setUsername();
-//        displayCount();
+        displayCount();
 
     }
 
@@ -935,16 +935,16 @@ public class HomePageAdmin extends javax.swing.JFrame {
 
     }
 
-//    private void displayCount() {
-//        int cnt = HomePageLogic.getCount("Staff");
-//        countStaff.setText(String.valueOf(cnt));
-//        int cnt2 = HomePageLogic.getCount("Books");
-//        countBooks.setText(String.valueOf(cnt2));
-//        int cnt3 = HomePageLogic.getCount("Members");
-//        countMembers.setText(String.valueOf(cnt3));
-//        int cnt4 = HomePageLogic.getCount("Borrow");
-//        countBorrow.setText(String.valueOf(cnt4));
-//    }
+    private void displayCount() {
+        int cnt = HomePageLogic.getCount("Staff");
+        countStaff.setText(String.valueOf(cnt));
+        int cnt2 = HomePageLogic.getCount("Books");
+        countBooks.setText(String.valueOf(cnt2));
+        int cnt3 = HomePageLogic.getCount("Members");
+        countMembers.setText(String.valueOf(cnt3));
+        int cnt4 = HomePageLogic.getCount("Borrow");
+        countBorrow.setText(String.valueOf(cnt4));
+    }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -969,10 +969,10 @@ public class HomePageAdmin extends javax.swing.JFrame {
         int response = javax.swing.JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn đăng xuất?", "Xác nhận",
                 javax.swing.JOptionPane.YES_NO_OPTION, javax.swing.JOptionPane.QUESTION_MESSAGE);
         if (response == javax.swing.JOptionPane.YES_OPTION) {
-//            LoginPage login = new LoginPage();
-//            login.setVisible(true);
-//            login.pack();
-//            login.setLocationRelativeTo(null);
+            LoginPage login = new LoginPage();
+            login.setVisible(true);
+            login.pack();
+            login.setLocationRelativeTo(null);
             this.dispose();
         }
     }//GEN-LAST:event_logOutBtnActionPerformed

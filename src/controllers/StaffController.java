@@ -84,7 +84,7 @@ public class StaffController {
     }
     
     
-    public void updateStaff(Staff staff, String id) {
+    public void updateStaff(Staff staff, String id) throws SQLException, ClassNotFoundException {
         String query = "UPDATE Staff SET name = ?, email = ?, phone = ?, position = ?, hireDate = ?, password = ? WHERE id = ?";
 
         try (Connection connection = DBConnection.getConnection();
@@ -101,11 +101,8 @@ public class StaffController {
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Staff updated successfully!");
-            }
-            else {
-                this.insertStaff(staff);
-            }
-        } catch (SQLException | ClassNotFoundException e) {
+                }
+            } catch (SQLException | ClassNotFoundException e) {
         }
     }
     

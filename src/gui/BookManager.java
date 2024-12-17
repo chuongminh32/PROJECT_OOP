@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gui;
-import controllers.StaffController;
+import controllers.BookController;
 import java.util.List;
 import java.sql.SQLException; // lỗi kết nối sql
 import java.sql.Date;
@@ -14,17 +14,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
 
-import models.Staff;
+import models.Book;
 /**
  *
  * @author HP
  */
-public class StaffManager extends javax.swing.JFrame {
+public class BookManager extends javax.swing.JFrame {
     
-    private StaffController staffcontroller = new StaffController();
+    private BookController bookcontroller = new BookController();
     private DefaultTableModel dtablemodel;
     private boolean isEditing = false;
-//    Staff_Table stafftable = new Staff_Table();
     
     /**
      * Creates new form StaffManager
@@ -32,61 +31,56 @@ public class StaffManager extends javax.swing.JFrame {
      * @throws java.lang.ClassNotFoundException
      */
     
-    private void setData(List<Staff> staff_list)  throws SQLException, ClassNotFoundException{
+    private void setData(List<Book> book_list)  throws SQLException, ClassNotFoundException{
         dtablemodel.setRowCount(0);
         //Truy xuất dữ liệu từ database
-        for (Staff staff: staff_list){
-            dtablemodel.addRow(new Object[]{staff.getId(), staff.getName(), staff.getEmail(),
-                staff.getPhoneNumber() ,staff.getPosition(), staff.getHire_date(), staff.getPassword()});    
+        for (Book book: book_list){
+            dtablemodel.addRow(new Object[]{book.getId(), book.getTitle(),book.getAuthor(),book.getPublisher() ,
+                book.getPublishedYear(), book.getCategory(), book.getTotalCopies(), book.getAvailableCopies()});    
         } //close for
         
     }
     
-    private void add_Staff(Staff staff) throws SQLException, ClassNotFoundException{
+    private void add_Book(Book book) throws SQLException, ClassNotFoundException{
         //Thêm mới người dùng vào database và hiển thị ra màn hình
-        this.staffcontroller.insertStaff(staff);
-        setData(staffcontroller.getAllStaffs());  
+        this.bookcontroller.insertBook(book);
+        setData(bookcontroller.getAllBooks());  
     }
-    private void delete_Staff(String id) throws SQLException, ClassNotFoundException{
+    private void delete_Book(String id) throws SQLException, ClassNotFoundException{
         //Thêm mới người dùng vào database và hiển thị ra màn hình
-        this.staffcontroller.deleteStaff(id);
-        setData(staffcontroller.getAllStaffs()); 
+        this.bookcontroller.deleteBook(id);
+        setData(bookcontroller.getAllBooks()); 
     }
-    private void update_Staff(String id, Staff staff) throws SQLException, ClassNotFoundException {
+    private void update_Book(Book book, String id) throws SQLException, ClassNotFoundException {
         //Cập nhật người dùng, nếu không tìm thấy id thì thêm mới
-        this.staffcontroller.updateStaff(staff, id);
-        setData(staffcontroller.getAllStaffs());
+        this.bookcontroller.updateBook(book, id);
+        setData(bookcontroller.getAllBooks());
     }
             
     private void set_field(boolean root){
-        this.nameField.setEnabled(root);
+        this.titleField.setEnabled(root);
         this.idField.setEnabled(root);
-        this.phoneField.setEnabled(root);
-        this.emailField.setEnabled(root);
-        this.hireDateField.setEnabled(root);
-        this.PasswordField.setEnabled(root);
-        this.positionField.setEnabled(root);
+        this.authorField.setEnabled(root);
+        this.publisherField.setEnabled(root);
+        this.categoryField.setEnabled(root);
+        this.totalCopiesField.setEnabled(root);
+        this.publishedYearField.setEnabled(root);
+        this.avaCopiesField.setEnabled(root);
     }
-    private void set_field_value(int row){
-        this.idField.setText((String) this.Staff_Table.getValueAt(row, 0));
-        this.nameField.setText((String) this.Staff_Table.getValueAt(row, 1));
-        this.emailField.setText((String) this.Staff_Table.getValueAt(row, 2));
-        this.phoneField.setText((String) this.Staff_Table.getValueAt(row, 3));
-        this.positionField.setText((String) this.Staff_Table.getValueAt(row, 4));
-        this.hireDateField.setText(this.Staff_Table.getValueAt(row, 5).toString()); // Chuyển đổi giá trị ngày tháng thành chuỗi
-   
+    private void set_field_value(int row) {
+        this.idField.setText(String.valueOf(this.Book_Table.getValueAt(row, 0)));
+        this.titleField.setText(String.valueOf(this.Book_Table.getValueAt(row, 1)));
+        this.authorField.setText(String.valueOf(this.Book_Table.getValueAt(row, 2)));
+        this.publisherField.setText(String.valueOf(this.Book_Table.getValueAt(row, 3)));
+        this.publishedYearField.setText(String.valueOf(this.Book_Table.getValueAt(row, 4)));
+        this.categoryField.setText(String.valueOf(this.Book_Table.getValueAt(row, 5))); 
+        this.totalCopiesField.setText(String.valueOf(this.Book_Table.getValueAt(row, 6)));
+        this.avaCopiesField.setText(String.valueOf(this.Book_Table.getValueAt(row, 7)));   
     }
+
     
-    private boolean is_nonnull_field(){
-        if (this.nameField.getText().trim().isEmpty() || 
-            this.hireDateField.getText().trim().isEmpty() || 
-            this.PasswordField.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(StaffManager.this, "You have to fill in the blank!", "Input Error", JOptionPane.WARNING_MESSAGE);
-        }
-        return false;
-    }
             
-    public StaffManager() throws SQLException, ClassNotFoundException {
+    public BookManager() throws SQLException, ClassNotFoundException {
         /* HÀM HIỂN THỊ BẢNG QUẢN LÝ NHÂN VIÊN
         */
         initComponents();
@@ -97,19 +91,21 @@ public class StaffManager extends javax.swing.JFrame {
                 return false;
             }
         };
-        this.Staff_Table.setModel(dtablemodel);
+        this.Book_Table.setModel(dtablemodel);
        
-        dtablemodel.addColumn("id");
-        dtablemodel.addColumn("name");
-        dtablemodel.addColumn("email");
-        dtablemodel.addColumn("phone");
-        dtablemodel.addColumn("position");
-        dtablemodel.addColumn("hireDate");
-        dtablemodel.addColumn("password");
+        dtablemodel.addColumn("ID");
+        dtablemodel.addColumn("Title");
+        dtablemodel.addColumn("Author");
+        dtablemodel.addColumn("Publisher");
+        dtablemodel.addColumn("Publish year");
+        dtablemodel.addColumn("category");
+        dtablemodel.addColumn("Total copies");
+        dtablemodel.addColumn("Available copies");
+
         
-        setData(staffcontroller.getAllStaffs()); 
+        setData(bookcontroller.getAllBooks()); 
         // Đảm bảo bảng luôn chiếm hết chiều rộng của JScrollPane 
-        Staff_Table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        Book_Table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         
 
         
@@ -135,26 +131,28 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        Staff_Table = new javax.swing.JTable();
+        Book_Table = new javax.swing.JTable();
         add_button = new javax.swing.JButton();
         refresh_button1 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        nameField = new javax.swing.JTextField();
+        titleField = new javax.swing.JTextField();
         idField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        emailField = new javax.swing.JTextField();
+        authorField = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        phoneField = new javax.swing.JTextField();
+        publisherField = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
-        hireDateField = new javax.swing.JTextField();
+        categoryField = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
-        PasswordField = new javax.swing.JPasswordField();
         delete_button = new javax.swing.JButton();
         update_button = new javax.swing.JButton();
-        positionField = new javax.swing.JTextField();
+        publishedYearField = new javax.swing.JTextField();
         search_button = new javax.swing.JButton();
+        jLabel17 = new javax.swing.JLabel();
+        totalCopiesField = new javax.swing.JTextField();
+        avaCopiesField = new javax.swing.JTextField();
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -244,7 +242,7 @@ public class StaffManager extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        Staff_Table.setModel(new javax.swing.table.DefaultTableModel(
+        Book_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -281,13 +279,13 @@ public class StaffManager extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        Staff_Table.setToolTipText("");
-        Staff_Table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        Staff_Table.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        Staff_Table.setFillsViewportHeight(true);
-        Staff_Table.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-        Staff_Table.setShowGrid(false);
-        jScrollPane1.setViewportView(Staff_Table);
+        Book_Table.setToolTipText("");
+        Book_Table.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        Book_Table.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        Book_Table.setFillsViewportHeight(true);
+        Book_Table.setSelectionMode(javax.swing.ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        Book_Table.setShowGrid(false);
+        jScrollPane1.setViewportView(Book_Table);
 
         add_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         add_button.setText("ADD");
@@ -308,14 +306,14 @@ public class StaffManager extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("NAME:");
+        jLabel2.setText("TITLE:");
 
-        nameField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        nameField.setAutoscrolls(false);
-        nameField.setEnabled(false);
-        nameField.addActionListener(new java.awt.event.ActionListener() {
+        titleField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        titleField.setAutoscrolls(false);
+        titleField.setEnabled(false);
+        titleField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nameFieldActionPerformed(evt);
+                titleFieldActionPerformed(evt);
             }
         });
 
@@ -332,51 +330,47 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel5.setText("ID:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel8.setText("POSITION:");
+        jLabel8.setText("PUBLISHED YEAR:");
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel9.setText("EMAIL:");
+        jLabel9.setText("AUTHOR:");
 
-        emailField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        emailField.setAutoscrolls(false);
-        emailField.setEnabled(false);
-        emailField.addActionListener(new java.awt.event.ActionListener() {
+        authorField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        authorField.setAutoscrolls(false);
+        authorField.setEnabled(false);
+        authorField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailFieldActionPerformed(evt);
+                authorFieldActionPerformed(evt);
             }
         });
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel10.setText("PHONE NUMBER:");
+        jLabel10.setText("PUBLISHER:");
 
-        phoneField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        phoneField.setAutoscrolls(false);
-        phoneField.setEnabled(false);
-        phoneField.addActionListener(new java.awt.event.ActionListener() {
+        publisherField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        publisherField.setAutoscrolls(false);
+        publisherField.setEnabled(false);
+        publisherField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                phoneFieldActionPerformed(evt);
+                publisherFieldActionPerformed(evt);
             }
         });
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel12.setText("HIRE DATE:");
+        jLabel12.setText("CATEGORY:");
 
-        hireDateField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hireDateField.setToolTipText("");
-        hireDateField.setAutoscrolls(false);
-        hireDateField.setEnabled(false);
-        hireDateField.addActionListener(new java.awt.event.ActionListener() {
+        categoryField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        categoryField.setToolTipText("");
+        categoryField.setAutoscrolls(false);
+        categoryField.setEnabled(false);
+        categoryField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hireDateFieldActionPerformed(evt);
+                categoryFieldActionPerformed(evt);
             }
         });
 
         jLabel16.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel16.setText("PASSWORD:");
-
-        PasswordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        PasswordField.setToolTipText("");
-        PasswordField.setEnabled(false);
+        jLabel16.setText("TOTAL COPIES:");
 
         delete_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         delete_button.setText("DELETE");
@@ -398,9 +392,9 @@ public class StaffManager extends javax.swing.JFrame {
             }
         });
 
-        positionField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        positionField.setToolTipText("");
-        positionField.setEnabled(false);
+        publishedYearField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        publishedYearField.setToolTipText("");
+        publishedYearField.setEnabled(false);
 
         search_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         search_button.setText("SEARCH");
@@ -412,13 +406,46 @@ public class StaffManager extends javax.swing.JFrame {
             }
         });
 
+        jLabel17.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel17.setText("AVAILABLE COPIES:");
+
+        totalCopiesField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        totalCopiesField.setToolTipText("");
+        totalCopiesField.setAutoscrolls(false);
+        totalCopiesField.setEnabled(false);
+        totalCopiesField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                totalCopiesFieldActionPerformed(evt);
+            }
+        });
+
+        avaCopiesField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        avaCopiesField.setToolTipText("");
+        avaCopiesField.setAutoscrolls(false);
+        avaCopiesField.setEnabled(false);
+        avaCopiesField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                avaCopiesFieldActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(refresh_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(224, 224, 224)
+                        .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 24, 24)
+                        .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(search_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
@@ -428,39 +455,27 @@ public class StaffManager extends javax.swing.JFrame {
                                 .addGap(79, 79, 79)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(titleField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(79, 79, 79)
-                                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(31, 31, 31)
+                                .addComponent(authorField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(phoneField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(202, 202, 202)
+                                .addComponent(publisherField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel17))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(PasswordField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(hireDateField, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
-                                    .addComponent(positionField)))))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(refresh_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(224, 224, 224)
-                        .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(search_button, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(categoryField)
+                            .addComponent(publishedYearField, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(totalCopiesField)
+                            .addComponent(avaCopiesField, javax.swing.GroupLayout.Alignment.TRAILING))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -470,51 +485,55 @@ public class StaffManager extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 332, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(positionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(titleField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(idField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(hireDateField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel4Layout.createSequentialGroup()
+                                        .addGap(1, 1, 1)
+                                        .addComponent(authorField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(publishedYearField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addGap(32, 32, 32)
+                                    .addComponent(categoryField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(publisherField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(7, 7, 7)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(phoneField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 97, Short.MAX_VALUE)
+                            .addComponent(totalCopiesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(avaCopiesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 102, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(refresh_button1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(add_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(delete_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(update_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(search_button, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(15, 15, 15))
+                .addGap(18, 18, 18))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -547,132 +566,146 @@ public class StaffManager extends javax.swing.JFrame {
         - Có thể xóa từng bản ghi hoặc nhiều bản ghi cùng lúc
         - Chọn trực tiếp trên bản và ấn vào button "DELETE"
         */
-        int[] rows = this.Staff_Table.getSelectedRows();
+        int[] rows = this.Book_Table.getSelectedRows();
         
         if (rows.length < 1){
-            JOptionPane.showMessageDialog(StaffManager.this, "You haven't choose any staff!");
+            JOptionPane.showMessageDialog(BookManager.this, "You haven't choose any book!");
         }
         else {
-            int confirm = JOptionPane.showConfirmDialog(StaffManager.this, "Are you sure to delete this staff?");
+            int confirm = JOptionPane.showConfirmDialog(BookManager.this, "Are you sure to delete this book?");
             
             if (confirm == JOptionPane.YES_OPTION){
                 try {
                     boolean delete = false;
-                    String staff_id;
-                    //Điều chỉnh giá trị index khi xóa lần lượt từng bản ghi
+                    String book_id;
+                    // Điều chỉnh giá trị index khi xóa lần lượt từng bản ghi
                     for (int i = 0; i < rows.length; i++) {
                         if (!delete) {
-                            staff_id = String.valueOf(this.Staff_Table.getValueAt(rows[i] - i, 0)); 
+                            book_id = String.valueOf(this.Book_Table.getValueAt(rows[i] - i, 0)); 
                         } else {
-                            staff_id = String.valueOf(this.Staff_Table.getValueAt(rows[i], 0));
+                            book_id = String.valueOf(this.Book_Table.getValueAt(rows[i], 0));
                             delete = true;
                         }
-                        this.delete_Staff(staff_id);
-                    }     
-                    
+                        this.delete_Book(book_id);
+                    }
                 } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Delete Error", JOptionPane.ERROR_MESSAGE);
+                    Logger.getLogger(BookManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             
         }
     }//GEN-LAST:event_delete_buttonActionPerformed
 
-    private void hireDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hireDateFieldActionPerformed
+    private void categoryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryFieldActionPerformed
         // TODO add your handling code here:
         
-    }//GEN-LAST:event_hireDateFieldActionPerformed
+    }//GEN-LAST:event_categoryFieldActionPerformed
 
-    private void phoneFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneFieldActionPerformed
+    private void publisherFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_publisherFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_phoneFieldActionPerformed
+    }//GEN-LAST:event_publisherFieldActionPerformed
 
-    private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
+    private void authorFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_authorFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_emailFieldActionPerformed
+    }//GEN-LAST:event_authorFieldActionPerformed
 
     private void idFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_idFieldActionPerformed
 
-    private void nameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameFieldActionPerformed
+    private void titleFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_titleFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_nameFieldActionPerformed
+    }//GEN-LAST:event_titleFieldActionPerformed
 
     private void refresh_button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refresh_button1ActionPerformed
         //HÀM BUTTON REFRESH DỮ LIỆU TỪ DATABASE
         try {
             dtablemodel.setRowCount(0);
-            this.setData(staffcontroller.getAllStaffs());
+            this.setData(bookcontroller.getAllBooks());
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BookManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_refresh_button1ActionPerformed
 
     private void add_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_buttonActionPerformed
         //HÀM BUTTON THÊM MỚI DỮ LIỆU VÀO DATABASE
-        if (isEditing == false){
+        if (!isEditing) {
             this.set_field(true);
             this.isEditing = true;
         } else {
-            if (this.idField.getText().trim().isEmpty()){
+            if (this.idField.getText().trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "ID field cannot be empty.", "Input Error", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
-                if (!this.is_nonnull_field()){
-                    String email = this.emailField.getText().trim();
-                    
-                    try {
-                        // Kiểm tra nếu email đã tồn tại trong cơ sở dữ liệu
-                        if (this.staffcontroller.isEmailExists(email)) {
-                            JOptionPane.showMessageDialog(this, "Error: Email " + email + " already exists.", "Database Error", JOptionPane.ERROR_MESSAGE);
-                            return; // Dừng thực hiện nếu email đã tồn tại
+            } else {
+                try {
+                    Book new_book = new Book();
+                    new_book.setId(this.idField.getText());
+                    new_book.setTitle(this.titleField.getText());
+                    new_book.setAuthor(this.authorField.getText());
+                    new_book.setPublisher(this.publisherField.getText());
+
+                    // Kiểm tra và chuyển đổi publishedYear
+                    String publishedYearStr = this.publishedYearField.getText().trim();
+                    if (publishedYearStr.isEmpty()) {
+                        new_book.setPublishedYear(0);
+                    } else {
+                        try {
+                            new_book.setPublishedYear(Integer.parseInt(publishedYearStr));
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(this, "Invalid published year format: " + publishedYearStr, "Input Error", JOptionPane.ERROR_MESSAGE);
+                            return;
                         }
-                    } catch (SQLException | ClassNotFoundException ex) {
-                        Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    try {
-                    
-                    Staff new_staff = new Staff();
-                    new_staff.setId(this.idField.getText());
-                    new_staff.setName(this.nameField.getText());
-                    new_staff.setEmail(this.emailField.getText());
-                    new_staff.setPhoneNumber(this.phoneField.getText());
-                    new_staff.setPosition(this.positionField.getText());
-                    char[] cpassword = this.PasswordField.getPassword();
-                    String password = new String(cpassword);
-                    new_staff.setPassword(password);
-                    Date hireDate = Date.valueOf(this.hireDateField.getText());
-                    new_staff.setHire_date(hireDate);
-                    
-                    this.add_Staff(new_staff);
-                    
-                    JOptionPane.showMessageDialog(this, "Staff inserted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                    new_book.setCategory(this.categoryField.getText());
+
+                    // Kiểm tra và chuyển đổi totalCopies
+                    String totalCopiesStr = this.totalCopiesField.getText().trim();
+                    if (totalCopiesStr.isEmpty()) {
+                        new_book.setTotalCopies(0);
+                    } else {
+                        try {
+                            new_book.setTotalCopies(Integer.parseInt(totalCopiesStr));
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(this, "Invalid total copies format: " + totalCopiesStr, "Input Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
+
+                    // Kiểm tra và chuyển đổi availableCopies
+                    String availableCopiesStr = this.avaCopiesField.getText().trim();
+                    if (availableCopiesStr.isEmpty()) {
+                        new_book.setAvailableCopies(0);
+                    } else {
+                        try {
+                            new_book.setAvailableCopies(Integer.parseInt(availableCopiesStr));
+                        } catch (NumberFormatException e) {
+                            JOptionPane.showMessageDialog(this, "Invalid available copies format: " + availableCopiesStr, "Input Error", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
+
+                    this.add_Book(new_book);
+
+                    JOptionPane.showMessageDialog(this, "Book inserted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     this.set_field(false);
                     this.isEditing = false;
                 } catch (SQLException | ClassNotFoundException ex) {
                     if (ex.getMessage().contains("Violation of PRIMARY KEY constraint")) {
                         JOptionPane.showMessageDialog(this, "Error: ID " + this.idField.getText() + " already exists.", "Database Error", JOptionPane.ERROR_MESSAGE);
                     }
-                    Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IllegalArgumentException ex) {
-                // Xử lý lỗi khi nhập dữ liệu không đúng định dạng cho hireDate
-                    JOptionPane.showMessageDialog(this, "Invalid hire date format. Please enter the date in the format yyyy-mm-dd.", "Input Error", JOptionPane.ERROR_MESSAGE);
-                    Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BookManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                }
-                
-                
-            }    
+            }
         }  
     }//GEN-LAST:event_add_buttonActionPerformed
 
     private void update_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_update_buttonActionPerformed
         // BUTTON UPDATE THÔNG TIN STAFF
-        int row = this.Staff_Table.getSelectedRow();
+        int row = this.Book_Table.getSelectedRow();
 //        Staff staff = this.Staff_Table.getValueAt(row);
         if (row == -1) {
-            JOptionPane.showMessageDialog(StaffManager.this, "You haven't choose any staff!");
+            JOptionPane.showMessageDialog(BookManager.this, "You haven't choose any Book!");
         } else {
             if (!isEditing) {
                 this.set_field_value(row);
@@ -681,24 +714,23 @@ public class StaffManager extends javax.swing.JFrame {
                 isEditing = true;
             } else {
                 try {
+                    
+                    Book new_book = new Book();
+                    new_book.setId(this.idField.getText());
+                    new_book.setTitle(this.titleField.getText());
+                    new_book.setAuthor(this.authorField.getText());
+                    new_book.setPublisher(this.publisherField.getText());
+                    new_book.setPublishedYear(Integer.parseInt(this.publishedYearField.getText()));
+                    new_book.setCategory(this.categoryField.getText());
+                    new_book.setTotalCopies(Integer.parseInt(this.totalCopiesField.getText()));
+                    new_book.setAvailableCopies(Integer.parseInt(this.avaCopiesField.getText()));
+                    
+                    this.update_Book(new_book, new_book.getId());
                     this.set_field(false);
                     isEditing = false;
-                    Staff new_staff = new Staff();
-                    new_staff.setId(this.idField.getText());
-                    new_staff.setName(this.nameField.getText());
-                    new_staff.setEmail(this.emailField.getText());
-                    new_staff.setPhoneNumber(this.phoneField.getText());
-                    new_staff.setPosition(this.positionField.getText());
-                    char[] cpassword = this.PasswordField.getPassword();
-                    String password = new String(cpassword);
-                    new_staff.setPassword(password);
-                    Date hireDate = Date.valueOf(this.hireDateField.getText());
-                    new_staff.setHire_date(hireDate);
-                    
-                    this.update_Staff(new_staff.getId(), new_staff);
                     
                 } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BookManager.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             
@@ -714,77 +746,122 @@ public class StaffManager extends javax.swing.JFrame {
             this.isEditing = false;
             this.set_field(false);
             String id = this.idField.getText();
-            String name = this.nameField.getText();
-            String email = this.emailField.getText();
-            String phone = this.phoneField.getText();
-            String position = this.positionField.getText();
-            char[] cpassword = this.PasswordField.getPassword();
-            String password = new String(cpassword);
-            String hireDate = this.hireDateField.getText();
+            String title = this.titleField.getText();
+            String author = this.authorField.getText();
+            String publisher = this.publisherField.getText();
+            // Kiểm tra và chuyển đổi publishedYear
+            int publishedYear = -1;  // Giá trị mặc định
+            String publishedYearStr = this.publishedYearField.getText().trim();
+            if (!publishedYearStr.isEmpty()) {
+                try {
+                    publishedYear = Integer.parseInt(publishedYearStr);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Invalid published year format: " + publishedYearStr, "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            String category = this.categoryField.getText().trim();
+
+            // Kiểm tra và chuyển đổi totalCopies
+            int totalcopies = -1;  // Giá trị mặc định
+            String totalcopiesStr = this.totalCopiesField.getText().trim();
+            if (!totalcopiesStr.isEmpty()) {
+                try {
+                    totalcopies = Integer.parseInt(totalcopiesStr);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Invalid total copies format: " + totalcopiesStr, "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+
+            // Kiểm tra và chuyển đổi availableCopies
+            int availablecopies = -1;  // Giá trị mặc định
+            String availablecopiesStr = this.avaCopiesField.getText().trim();
+            if (!availablecopiesStr.isEmpty()) {
+                try {
+                    availablecopies = Integer.parseInt(availablecopiesStr);
+                } catch (NumberFormatException e) {
+                    JOptionPane.showMessageDialog(this, "Invalid available copies format: " + availablecopiesStr, "Input Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
 
 
-            List<Staff> staffs = null;
+            List<Book> books = null;
             try {
-                staffs = this.staffcontroller.findStaffByPartialFields(id, name, email, phone, position, hireDate, password);
+                books = this.bookcontroller.searchBooks(id, title, author, publisher, publishedYear, category, totalcopies, availablecopies);
 
-                this.setData(staffs);
+                this.setData(books);
             } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(BookManager.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-                
+        
+        
+        
+        
 
     }//GEN-LAST:event_search_buttonActionPerformed
+
+    private void totalCopiesFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_totalCopiesFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_totalCopiesFieldActionPerformed
+
+    private void avaCopiesFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avaCopiesFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_avaCopiesFieldActionPerformed
 
     /**
      * @param args the command line arguments
      * @throws java.sql.SQLException
      * @throws java.lang.ClassNotFoundException
      */
-    public static void main(String args[]) throws SQLException, ClassNotFoundException {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StaffManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new StaffManager().setVisible(true);
-                    
-                } catch (SQLException | ClassNotFoundException ex) {
-                    Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-    }
+//    public static void main(String args[]) throws SQLException, ClassNotFoundException {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(BookManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(BookManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(BookManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(BookManager.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                try {
+//                    new BookManager().setVisible(true);
+//                    
+//                } catch (SQLException | ClassNotFoundException ex) {
+//                    Logger.getLogger(BookManager.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPasswordField PasswordField;
-    private javax.swing.JTable Staff_Table;
+    private javax.swing.JTable Book_Table;
     private javax.swing.JButton add_button;
+    private javax.swing.JTextField authorField;
+    private javax.swing.JTextField avaCopiesField;
+    private javax.swing.JTextField categoryField;
     private javax.swing.JButton delete_button;
-    private javax.swing.JTextField emailField;
-    private javax.swing.JTextField hireDateField;
     private javax.swing.JTextField idField;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
@@ -792,6 +869,7 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -804,11 +882,12 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField nameField;
-    private javax.swing.JTextField phoneField;
-    private javax.swing.JTextField positionField;
+    private javax.swing.JTextField publishedYearField;
+    private javax.swing.JTextField publisherField;
     private javax.swing.JButton refresh_button1;
     private javax.swing.JButton search_button;
+    private javax.swing.JTextField titleField;
+    private javax.swing.JTextField totalCopiesField;
     private javax.swing.JButton update_button;
     // End of variables declaration//GEN-END:variables
 

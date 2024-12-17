@@ -4,17 +4,13 @@
  */
 package gui;
 import controllers.StaffController;
-import java.awt.BorderLayout;
 import java.util.List;
 import java.sql.SQLException; // lỗi kết nối sql
 import java.sql.Date;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 
@@ -131,13 +127,13 @@ public class StaffManager extends javax.swing.JFrame {
 
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jStaffField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         Staff_Table = new javax.swing.JTable();
@@ -180,14 +176,6 @@ public class StaffManager extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(58, 93, 156));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setBackground(new java.awt.Color(107, 173, 206));
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search.png"))); // NOI18N
-        jLabel1.setPreferredSize(new java.awt.Dimension(30, 16));
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 90, 40, 40));
-
         jLabel3.setBackground(new java.awt.Color(107, 173, 206));
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -205,14 +193,6 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel4.setPreferredSize(new java.awt.Dimension(30, 16));
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 40, 130, 30));
 
-        jStaffField.setText("Find staff");
-        jStaffField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jStaffFieldActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jStaffField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 180, 40));
-
         jLabel6.setBackground(new java.awt.Color(107, 173, 206));
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -220,25 +200,49 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel6.setPreferredSize(new java.awt.Dimension(30, 16));
         jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 130, 30));
 
-        jLabel7.setBackground(new java.awt.Color(107, 173, 206));
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/admin.png"))); // NOI18N
-        jLabel7.setPreferredSize(new java.awt.Dimension(30, 16));
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, 30));
+        jLabel14.setBackground(new java.awt.Color(107, 173, 206));
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/admin.png"))); // NOI18N
+        jLabel14.setPreferredSize(new java.awt.Dimension(30, 16));
+        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, 30));
 
         jPanel2.setBackground(new java.awt.Color(107, 173, 206));
+
+        jLabel13.setBackground(new java.awt.Color(107, 173, 206));
+        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/LOGOHCMUTE.png"))); // NOI18N
+        jLabel13.setPreferredSize(new java.awt.Dimension(30, 16));
+
+        jLabel15.setBackground(new java.awt.Color(107, 173, 206));
+        jLabel15.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/FITLOGO.png"))); // NOI18N
+        jLabel15.setPreferredSize(new java.awt.Dimension(30, 16));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(426, 426, 426)
+                .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(438, 438, 438))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 42, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         Staff_Table.setModel(new javax.swing.table.DefaultTableModel(
@@ -359,7 +363,6 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel12.setText("HIRE DATE:");
 
         hireDateField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        hireDateField.setText("yyyy-mm-dd");
         hireDateField.setToolTipText("");
         hireDateField.setAutoscrolls(false);
         hireDateField.setEnabled(false);
@@ -373,7 +376,7 @@ public class StaffManager extends javax.swing.JFrame {
         jLabel16.setText("PASSWORD:");
 
         PasswordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        PasswordField.setText("jPasswordField1");
+        PasswordField.setToolTipText("");
         PasswordField.setEnabled(false);
 
         delete_button.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -540,10 +543,6 @@ public class StaffManager extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jStaffFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jStaffFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jStaffFieldActionPerformed
-
     private void delete_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_buttonActionPerformed
         /*BUTTON XÓA STAFF RA KHỎI DATABASE
         - Có thể xóa từng bản ghi hoặc nhiều bản ghi cùng lúc
@@ -582,6 +581,7 @@ public class StaffManager extends javax.swing.JFrame {
 
     private void hireDateFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hireDateFieldActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_hireDateFieldActionPerformed
 
     private void phoneFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phoneFieldActionPerformed
@@ -707,22 +707,35 @@ public class StaffManager extends javax.swing.JFrame {
     }//GEN-LAST:event_update_buttonActionPerformed
 
     private void search_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_buttonActionPerformed
-        // TODO add your handling code here:
-        this.set_field(false);
-        this.nameField.setEnabled(true);
-        String name = this.nameField.getText();
-        List<Staff> staffs = null;
-        try {
-            if (name.trim().length() == 0) {
-            staffs = this.staffcontroller.getAllStaffs();
-            } else {
-            staffs = (List<Staff>) this.staffcontroller.find_staff_byname(name);
+        // BUTTON TÌM KIẾM THEO CÁC TRƯỜNG, KHÔNG PHÂN BIỆT HOA THƯỜNG
+        if (!this.isEditing){
+            this.set_field(true);
+            this.isEditing = true;
+        } else {
+            this.isEditing = false;
+            this.set_field(false);
+            String id = this.idField.getText();
+            String name = this.nameField.getText();
+            String email = this.emailField.getText();
+            String phone = this.phoneField.getText();
+            String position = this.positionField.getText();
+            char[] cpassword = this.PasswordField.getPassword();
+            String password = new String(cpassword);
+            String hireDate = this.hireDateField.getText();
+
+
+            List<Staff> staffs = null;
+            try {
+                staffs = this.staffcontroller.findStaffByPartialFields(id, name, email, phone, position, hireDate, password);
+
+                this.setData(staffs);
+            } catch (SQLException | ClassNotFoundException ex) {
+                Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            this.setData(staffs);
-        } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(StaffManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        
         
 
     }//GEN-LAST:event_search_buttonActionPerformed
@@ -777,16 +790,17 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JTextField emailField;
     private javax.swing.JTextField hireDateField;
     private javax.swing.JTextField idField;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
@@ -794,7 +808,6 @@ public class StaffManager extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jStaffField;
     private javax.swing.JTextField nameField;
     private javax.swing.JTextField phoneField;
     private javax.swing.JTextField positionField;

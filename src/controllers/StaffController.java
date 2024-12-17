@@ -1,6 +1,7 @@
 package controllers;
 import java.util.List;
 import java.util.ArrayList;
+import java.sql.Statement; // truy vấn không tham số
 import java.sql.PreparedStatement; // truy vấn có tham số
 import java.sql.Connection; // kết nối db
 import java.sql.SQLException; // lỗi kết nối sql
@@ -83,8 +84,36 @@ public class StaffController {
         
     }
     
+    public List<Staff> find_staff_byname(String name) throws SQLException, ClassNotFoundException{
+        String sql = "Select * from Staff WHERE name=?";
+        
+        try (Connection connection = DBConnection.getConnection();
+        PreparedStatement pstm = connection.prepareStatement(sql);){
+            pstm.setString(1,  name);
+        
+            ResultSet rs = pstm.executeQuery();
+            List <Staff> staffs = new ArrayList<>();
+
+            while (rs.next()) {
+                String id = rs.getString("id");
+                String names = rs.getString("name");
+                String email = rs.getString("email");
+                String phoneNumber = rs.getString("phone");
+                String position = rs.getString("position");
+                Date hire_date = rs.getDate("hireDate");
+                String password = rs.getString("password");
     
-    public void updateStaff(Staff staff, String id) throws SQLException, ClassNotFoundException {
+                Staff staff = new Staff(id, name, email, phoneNumber, position, hire_date, password);
+                staffs.add(staff);  
+            }
+            return staffs;
+        }   catch (SQLException | ClassNotFoundException e){      
+                e.printStackTrace();
+                return null;   
+        }
+    }
+    
+    public void updateStaff(Staff staff, String id) {
         String query = "UPDATE Staff SET name = ?, email = ?, phone = ?, position = ?, hireDate = ?, password = ? WHERE id = ?";
 
         try (Connection connection = DBConnection.getConnection();
@@ -101,8 +130,11 @@ public class StaffController {
             int rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("Staff updated successfully!");
-                }
-            } catch (SQLException | ClassNotFoundException e) {
+            }
+            else {
+                this.insertStaff(staff);
+            }
+        } catch (SQLException | ClassNotFoundException e) {
         }
     }
     
@@ -120,75 +152,8 @@ public class StaffController {
         }
     }
     return false; // Email không tồn tại
-    }
-    
-    //CÁC TRUY VẤN LỌC
-    public List<Staff> findStaffByPartialFields(String id, String name, String email, String phoneNumber, String position, String hireDate, String password) throws SQLException, ClassNotFoundException {
-        StringBuilder sql = new StringBuilder("SELECT * FROM Staff WHERE 1=1");
-        List<Object> parameters = new ArrayList<>();
-
-        if (id != null && !id.trim().isEmpty()) {
-            sql.append(" AND id LIKE ?");
-            parameters.add("%" + id.trim() + "%");
-        }
-        if (name != null && !name.trim().isEmpty()) {
-            sql.append(" AND name LIKE ?");
-            parameters.add("%" + name.trim() + "%");
-        }
-        if (email != null && !email.trim().isEmpty()) {
-            sql.append(" AND email LIKE ?");
-            parameters.add("%" + email.trim() + "%");
-        }
-        if (phoneNumber != null && !phoneNumber.trim().isEmpty()) {
-            sql.append(" AND phone LIKE ?");
-            parameters.add("%" + phoneNumber.trim() + "%");
-        }
-        if (position != null && !position.trim().isEmpty()) {
-            sql.append(" AND position LIKE ?");
-            parameters.add("%" + position.trim() + "%");
-        }
-        if (hireDate != null && !hireDate.trim().isEmpty()) {
-            sql.append(" AND hireDate LIKE ?");
-            parameters.add("%" + hireDate + "%");
-        }
-        if (password != null && !password.trim().isEmpty()) {
-            sql.append(" AND password LIKE ?");
-            parameters.add("%" + password.trim() + "%");
-        }
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement pstm = connection.prepareStatement(sql.toString())) {
-
-            for (int i = 0; i < parameters.size(); i++) {
-                pstm.setObject(i + 1, parameters.get(i));
-            }
-
-            try (ResultSet rs = pstm.executeQuery()) {
-                List<Staff> staffs = new ArrayList<>();
-                while (rs.next()) {
-                    String staffId = rs.getString("id");
-                    String staffName = rs.getString("name");
-                    String staffEmail = rs.getString("email");
-                    String staffPhoneNumber = rs.getString("phone");
-                    String staffPosition = rs.getString("position");
-                    Date staffHireDate = rs.getDate("hireDate");
-                    String staffPassword = rs.getString("password");
-
-                    Staff staff = new Staff(staffId, staffName, staffEmail, staffPhoneNumber, staffPosition, staffHireDate, staffPassword);
-                    staffs.add(staff);
-                }
-                return staffs;
-            }
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
 }
 
-
     
     
-
+}

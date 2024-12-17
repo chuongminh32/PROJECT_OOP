@@ -5,6 +5,7 @@ import models.Member;
 
 import java.util.List;
 import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 // MemberTableModel là lớp để quản lý và hiển thị dữ liệu thành viên trong bảng.
 public class MemberTableModel extends AbstractTableModel {
 
@@ -53,4 +54,5 @@ public class MemberTableModel extends AbstractTableModel {
     public String getColumnName(int column) {
         return columnNames[column];
     }
+ 
 }

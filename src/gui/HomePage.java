@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 
 import controllers.MemberController;
 import gui.MemberManage;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class HomePage extends JFrame {
@@ -27,8 +30,14 @@ public class HomePage extends JFrame {
             manageUsersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {             
-                MemberManage manageUsersPage = new MemberManage(memberController);
-                manageUsersPage.run();
+                try {
+                    MemberManage manageUsersPage = new MemberManage();
+                    manageUsersPage.run();
+                } catch (SQLException ex) {
+                    Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(HomePage.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             });
             add(manageUsersButton);

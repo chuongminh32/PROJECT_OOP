@@ -30,7 +30,7 @@ public class MemberController {
     }
 
     // in danh sach member
-    public static List<Member> PrintListThanhVien(Connection conn) throws SQLException {
+    public static List<Member> PrintListMember(Connection conn) throws SQLException {
         List<Member> list = new ArrayList<>();
         String sql = "SELECT * FROM Members";
         try (Statement stmt = conn.createStatement();
@@ -61,31 +61,58 @@ public class MemberController {
             statement.setString(6, password);
 
             int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu đã thêm thành công
+            return rowsAffected > 0; 
         } catch (SQLException e) {
             System.out.println("Error adding member: " + e.getMessage());
             return false;
         }
     }
+    public Member findMember(String email) throws SQLException, ClassNotFoundException {
+        Connection conn = DBConnection.getConnection();
+        String query = "SELECT * FROM Members WHERE email = ?";
+        try (PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setString(1, email);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    Member member = new Member();
+                    member.setId(rs.getString("id"));
+                    member.setName(rs.getString("name"));
+                    member.setEmail(rs.getString("email"));
+                    member.setPhone(rs.getString("phone"));
+                    member.setMembershipDate(rs.getDate("membershipDate"));
+                    member.setPassword(rs.getString("password"));
+                    return member; 
+                }
+            }
+        }
+        return null; 
+    }
+
 
     // Cập nhật thông tin thành viên
     public boolean updateMember(String id, String name, String email, String phone, Date membershipDate,
-            String password) {
-        String sql = "UPDATE Members SET name = ?, email = ?, phone = ?, membershipDate = ?, password=? WHERE id = ?";
+            String password) throws SQLException, ClassNotFoundException {
+        Member fmem = findMember(email);
+        if(fmem!=null){
+            String sql = "UPDATE Members SET name = ?, email = ?, phone = ?, membershipDate = ?, password=? WHERE id = ?";
 
-        try (PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, name);
-            statement.setString(2, email);
-            statement.setString(3, phone);
-            statement.setDate(4, membershipDate);
-            statement.setString(5, password);
-            statement.setString(6, id);
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, name);
+                statement.setString(2, email);
+                statement.setString(3, phone);
+                statement.setDate(4, membershipDate);
+                statement.setString(5, password);
+                statement.setString(6, id);
 
-            int rowsAffected = statement.executeUpdate();
-            return rowsAffected > 0; // Trả về true nếu đã cập nhật thành công
-        } catch (SQLException e) {
-            System.out.println("Error updating member: " + e.getMessage());
-            return false;
+                int rowsAffected = statement.executeUpdate();
+                return rowsAffected > 0; // Trả về true nếu đã cập nhật thành công
+            } catch (SQLException e) {
+                System.out.println("Error updating member: " + e.getMessage());
+                return false;
+            }
+        }
+        else{
+            return addMember(id, name, email, phone, membershipDate, password);
         }
     }
 
@@ -152,6 +179,6 @@ public class MemberController {
             System.out.println("Error retrieving member by id: " + e.getMessage());
         }
 
-        return null; // Trả về null nếu không tìm thấy thành viên
+        return null; 
     }
 }

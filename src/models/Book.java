@@ -9,6 +9,7 @@ package models;
  *
  * @author chuon
  */
+
 public class Book {
     private String id;            // Mã sách (duy nhất)
     private String title;         // Tiêu đề sách
@@ -18,7 +19,6 @@ public class Book {
     private String category;      // Thể loại sách
     private int totalCopies;      // Tổng số bản
     private int availableCopies;  // Số lượng bản còn sẵn
-
     // Constructor
     public Book() {
     }

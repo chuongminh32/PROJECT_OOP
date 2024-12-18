@@ -8,6 +8,7 @@ public class Member {
     private String email;
     private String phone;
     private Date membershipDate;
+    private String pass;
 
     // Constructor
     public Member() {
@@ -69,5 +70,19 @@ public class Member {
 
     public void setMembershipDate(Date membershipDate) {
         this.membershipDate = membershipDate;
+    }
+
+    /**
+     * @return the pass
+     */
+    public String getPass() {
+        return pass;
+    }
+
+    /**
+     * @param pass the pass to set
+     */
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }

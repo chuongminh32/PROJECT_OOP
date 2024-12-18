@@ -135,7 +135,7 @@ library_management_app/
             |                   v                                                          v                              | 
             |      +-------------------------+                              +-------------------------+                   |  
             |      | Các thao tác quản lý    |                              | Các thao tác xem dữ liệu|                   |  
-            |      | Sách, Thành viên,       |                              |                         |                   |  
+            |      | Sách, Thành viên,       |                              | Thêm sách, trả sách     |                   |  
             |      | Mượn trả, Nhân viên     |                              |                         |                   |      
             |      | thông qua:              |                              |                         |                   |  
             |      | + BookManage.java       |                              |                         |                   |      
@@ -183,7 +183,7 @@ library_management_app/
 ### **Chức Năng Chính:**
 - **Đăng nhập và đăng ký:**
   - Cho phép người dùng đăng nhập với quyền **Admin** hoặc **User**.
-  - **Admin** có thể chỉnh sửa thông tin sách, thành viên, mượn trả, nhân viên. **User** chỉ có thể xem thông tin và lọc.
+  - **Admin** có thể chỉnh sửa thông tin sách, thành viên, mượn trả, nhân viên. **User** chỉ có thể xem thông tin, mượn và trả sách.
   
 - **Quản lý sách (Admin):**
   - Thêm, sửa, xóa sách.
@@ -268,11 +268,6 @@ library_management_app/
   - Chỉnh sửa thông tin nhân viên (Admin).
   - Xóa nhân viên (Admin).
 
-
-###  [super advanced (hard)]
-- User -> co the muon sach bang cach add cuon sach vao db (user tu nhap thong tin cua user, chon sach -> click nut borrow-> add thong tin sach &  
- thong tin user(member) vao db )-> tra ve thoi han muon sach va thong bao muon thanh cong !
----
 
 ## 3. Tính Năng Phân Quyền
 

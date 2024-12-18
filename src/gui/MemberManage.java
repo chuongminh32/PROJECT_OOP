@@ -130,7 +130,7 @@ public class MemberManage extends javax.swing.JFrame {
             } 
         } 
         if (columnIndex == -1) { 
-            JOptionPane.showMessageDialog(this, "Invalid search criteria selected.", "Error", JOptionPane.ERROR_MESSAGE); 
+            JOptionPane.showMessageDialog(this, "Tên trường không được chọn.", "Lỗi", JOptionPane.ERROR_MESSAGE); 
             return; 
         }
         
@@ -145,7 +145,7 @@ public class MemberManage extends javax.swing.JFrame {
                     Date cellDate = Date.valueOf(cellValue);
                    match = cellDate.equals(searchDate); 
                 } catch (IllegalArgumentException e) { 
-                    JOptionPane.showMessageDialog(this, "Invalid date format! Please use the format: YYYY-MM-DD.",
+                    JOptionPane.showMessageDialog(this, "Sai định dạng! Hãy nhập định dạng: YYYY-MM-DD.",
                             "Input Error", JOptionPane.ERROR_MESSAGE); 
                     return; 
                 } 

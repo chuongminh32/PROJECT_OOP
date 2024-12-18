@@ -16,7 +16,7 @@ public class SQLServerConnection {
     // Thông tin cấu hình kết nối (có thể đưa ra file cấu hình để dễ dàng quản lý)
     private static final String DB_DRIVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static final String DB_URL = "jdbc:sqlserver://localhost:1433";
-    private static final String DB_NAME = "Project_OOP";
+    private static final String DB_NAME = "OOP";
     private static final String DB_USERNAME = "sa";
     private static final String DB_PASSWORD = "261";
     private static final String CONNECTION_URL = DB_URL + ";databaseName=" + DB_NAME

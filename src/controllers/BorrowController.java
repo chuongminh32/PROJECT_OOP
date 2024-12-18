@@ -54,7 +54,7 @@ public class BorrowController {
 
   public static Member getMember(Connection conn, String memberId)
       throws SQLException {
-    String sql = "Select * from Member where id=?";
+    String sql = "Select * from Members where id=?";
     PreparedStatement pstm = conn.prepareStatement(sql);
     pstm.setString(1, memberId);
     ResultSet rs = pstm.executeQuery();
@@ -98,17 +98,15 @@ public class BorrowController {
   }
 
   // Thêm mới
-  public boolean addBorrow(int id, String memberId, String bookId, Date borrowDate, Date returnDate, Date dueDate,
-      String status) {
-    String sql = "INSERT INTO Borrow (id, bookId, memberId, borrowDate, dueDate, returnDate, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+  public boolean addBorrow(String memberId, String bookId, Date borrowDate, Date returnDate, Date dueDate, String status) {
+    String sql = "INSERT INTO Borrow (bookId, memberId, borrowDate, dueDate, returnDate, status) VALUES (?, ?, ?, ?, ?, ?)";
     try (PreparedStatement statement = this.connection.prepareStatement(sql)) {
-      statement.setInt(1, id);
-      statement.setString(2, bookId);
-      statement.setString(3, memberId);
-      statement.setDate(4, borrowDate);
-      statement.setDate(5, dueDate);
-      statement.setDate(6, returnDate);
-      statement.setString(7, status);
+      statement.setString(1, bookId);
+      statement.setString(2, memberId);
+      statement.setDate(3, borrowDate);
+      statement.setDate(4, dueDate);
+      statement.setDate(5, returnDate);
+      statement.setString(6, status);
 
       int rowsAffected = statement.executeUpdate();
       return rowsAffected > 0; // Trả về true nếu đã thêm thành công

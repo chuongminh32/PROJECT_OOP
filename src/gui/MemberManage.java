@@ -19,16 +19,8 @@ import models.Member;
  * @author admin
  */
 public class MemberManage extends javax.swing.JFrame {
-    // private JTextField idField, nameField, emailField,
-    // phoneField,membershipDateField;
-    // private JPasswordField passwordField;
-    // private JButton addButton, updateButton, deleteButton, viewButton;
-    private JTable memberTable;
     private DefaultTableModel tableModel = new DefaultTableModel();
-    // private MemberTableModel tableModel; // Custom table model to handle member
-    // data
-
-    private MemberController memberController;
+//    private MemberController memberController;
 
     public MemberManage() throws SQLException, ClassNotFoundException {
         initComponents();
@@ -176,20 +168,6 @@ public class MemberManage extends javax.swing.JFrame {
                 searchResults.add(rowData);
             }
         }
-
-        /*
-         * for (int i = 0; i < tableModel.getRowCount(); i++) {
-         * String cellValue = tableModel.getValueAt(i,
-         * columnIndex).toString().toLowerCase();
-         * if (cellValue.contains(searchText)) {
-         * Object[] rowData = new Object[tableModel.getColumnCount()];
-         * for (int j = 0; j < tableModel.getColumnCount(); j++) {
-         * rowData[j] = tableModel.getValueAt(i, j);
-         * }
-         * searchResults.add(rowData);
-         * }
-         * }
-         */
         tableModel.setRowCount(0);
 
         for (Object[] row : searchResults) {

@@ -18,7 +18,7 @@ public class MainTest {
         Scanner sc = new Scanner(System.in);
         
         MemberControllerTest list = new MemberControllerTest();
-        list.inDSMH();
+ //       list.inDSMH();
         
  //       list.insert("M999", "Test", "email", "012345", Date.valueOf("2024-12-17") , "123" );
     }

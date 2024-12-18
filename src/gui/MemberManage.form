@@ -60,13 +60,16 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="TH&#xd4;NG TIN QU&#x1ea2;N L&#xdd; MEMBER">
+            <TitledBorder title="TH&#xd4;NG TIN QU&#x1ea2;N L&#xdd; TH&#xc0;NH VI&#xca;N">
               <Font PropertyName="font" name="Segoe UI" size="12" style="1"/>
               <Color PropertyName="color" blue="ff" green="66" red="0" type="rgb"/>
             </TitledBorder>
           </Border>
         </Property>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="TH&#xd4;NG TIN QU&#x1ea2;N L&#xdd; TH&#xc0;NH VI&#xca;N"/>
+      </AccessibilityProperties>
 
       <Layout>
         <DimensionLayout dim="0">

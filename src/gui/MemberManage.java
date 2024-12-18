@@ -10,7 +10,7 @@ import utils.DBConnection;
 import controllers.MemberController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableModel; 
 import models.Member;
 
 /**
@@ -156,7 +156,7 @@ public class MemberManage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "THÔNG TIN QUẢN LÝ MEMBER", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(0, 102, 255))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "THÔNG TIN QUẢN LÝ THÀNH VIÊN", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(0, 102, 255))); // NOI18N
 
         IdLabel.setText("ID");
 
@@ -310,6 +310,8 @@ public class MemberManage extends javax.swing.JFrame {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
+
+        jPanel1.getAccessibleContext().setAccessibleName("THÔNG TIN QUẢN LÝ THÀNH VIÊN");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents

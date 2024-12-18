@@ -31,8 +31,8 @@ public class Borrow {
     public String toString() {
         return "ID: " + id
 
-                + ", Ten thanh vien: " + memberId.getName()
-                + ", Ten sach: " + bookId.getTitle()
+                + ", Ten thanh vien: " + getMemberId().getName()
+                + ", Ten sach: " + getBookId().getTitle()
                 + ", Ngay muon: " + borrowDate
                 + ", Ngay tra thuc te: " + returnDate
                 + ", Ngay tra du kien: " + dueDate
@@ -107,5 +107,33 @@ public class Borrow {
      */
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    /**
+     * @return the memberId
+     */
+    public Member getMemberId() {
+        return memberId;
+    }
+
+    /**
+     * @param memberId the memberId to set
+     */
+    public void setMemberId(Member memberId) {
+        this.memberId = memberId;
+    }
+
+    /**
+     * @return the bookId
+     */
+    public Book getBookId() {
+        return bookId;
+    }
+
+    /**
+     * @param bookId the bookId to set
+     */
+    public void setBookId(Book bookId) {
+        this.bookId = bookId;
     }
 }

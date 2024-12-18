@@ -40,7 +40,8 @@ public class HomePageLogic {
                 String email = rs.getString("email");
                 String phone = rs.getString("Phone");
                 Date membershipDate = rs.getDate("membershipDate");
-                Member newMember = new Member(id, name, email, phone, membershipDate);
+                String password = rs.getString("password");
+                Member newMember = new Member(id, name, email, phone, membershipDate, password);
                 return newMember;
             }
         } catch (Exception e) {

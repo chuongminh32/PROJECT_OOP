@@ -83,10 +83,10 @@ public class BorrowController {
         b.setId(rs.getInt("id"));
         String bookId = rs.getString("bookId");
         Book book = getBook(conn, bookId);
-        b.setBook(book);
+        b.setBookId(book);
         String memberId = rs.getString("memberId");
         Member mem = getMember(conn, memberId);
-        b.setMember(mem);
+        b.setMemberId(mem);
         b.setBorrowDate(rs.getDate("borrowDate"));
         b.setReturnDate(rs.getDate("returnDate"));
         b.setDueDate(rs.getDate("dueDate"));

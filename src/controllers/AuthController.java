@@ -10,8 +10,6 @@ import javax.swing.JOptionPane;
 import utils.DBConnection;
 
 public class AuthController {
-    
-    
 
     // ham lay ten tu db thong qua email va password
     public static String getName(String tableName, String email, String password) {
@@ -19,10 +17,10 @@ public class AuthController {
         try (Connection conn = DBConnection.getConnection()) {
             String sql = "SELECT * FROM " + tableName + " WHERE email = ? AND password = ?";
             PreparedStatement prsm = conn.prepareStatement(sql);
-           
+
             prsm.setString(1, email);
             prsm.setString(2, password);
-            
+
             ResultSet rs = prsm.executeQuery();
 
             if (rs.next()) {

@@ -24,25 +24,27 @@ import utils.DBConnection;
  * @author chuon
  */
 public class HomePageLogic {
-    
+
     // chinh sua thong tin ca nhan
-    public static Boolean editInfo(String id, String name, String email, String phone, String pass) {
-    String sql = "UPDATE Members SET name = ?, email = ?, phone = ?, password = ? WHERE id = ?";
-    try (Connection conn = DBConnection.getConnection()) {
-        PreparedStatement prsm = conn.prepareStatement(sql);
-        prsm.setString(1, name);
-        prsm.setString(2, email);
-        prsm.setString(3, phone);
-        prsm.setString(4, pass);
-        prsm.setString(5, id);
-        
-        int r = prsm.executeUpdate(); // Use executeUpdate() for modifying data
-        if (r > 0) return true; // If rows affected, return true
-    } catch (SQLException | ClassNotFoundException e) {
-        e.printStackTrace(); // Log the exception for debugging
+    public static Boolean editInfo(String id, String name, String email, String phone, String pass, String nameTable) {
+        String sql = "UPDATE " +nameTable +" SET name = ?, email = ?, phone = ?, password = ? WHERE id = ?";
+        try (Connection conn = DBConnection.getConnection()) {
+            PreparedStatement prsm = conn.prepareStatement(sql);
+            prsm.setString(1, name);
+            prsm.setString(2, email);
+            prsm.setString(3, phone);
+            prsm.setString(4, pass);
+            prsm.setString(5, id);
+
+            int r = prsm.executeUpdate(); // Use executeUpdate() for modifying data
+            if (r > 0) {
+                return true; // If rows affected, return true
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace(); // Log the exception for debugging
+        }
+        return false; // Return false if update failed or exception occurred
     }
-    return false; // Return false if update failed or exception occurred
-}
 
     // lay sach theo ten
     public static Book getBookWithName(String name) {
@@ -242,7 +244,7 @@ public class HomePageLogic {
     // lay doi tuong member qua id
     public static Member getMember(String memberId) {
         try (Connection conn = DBConnection.getConnection()) {
-            String sql = "SELECT id, name, email, phone, membershipDate FROM Members WHERE id = ?";
+            String sql = "SELECT id, name, email, phone, membershipDate, password FROM Members WHERE id = ?";
             PreparedStatement prsm = conn.prepareStatement(sql);
             prsm.setString(1, memberId);
             ResultSet rs = prsm.executeQuery();
@@ -253,7 +255,8 @@ public class HomePageLogic {
                 String email = rs.getString("email");
                 String phone = rs.getString("Phone");
                 Date membershipDate = rs.getDate("membershipDate");
-                Member newMember = new Member(id, name, email, phone, membershipDate);
+                String pass = rs.getString("password");
+                Member newMember = new Member(id, name, email, phone, membershipDate, pass);
                 return newMember;
             }
         } catch (Exception e) {
@@ -449,7 +452,7 @@ public class HomePageLogic {
             }
         } else if (nameTable == "Members") {
             // Truy vấn SQL để đếm số memberId khác nhau
-            String query = "SELECT COUNT(DISTINCT memberId) FROM Borrow";
+            String query = "SELECT COUNT(DISTINCT id) FROM Members";
             try (Connection conn = DBConnection.getConnection()) {
                 PreparedStatement ps = conn.prepareStatement(query);
 

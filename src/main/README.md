@@ -34,15 +34,12 @@ library_management_app/
 │   │   ├── LoginPage.java             -> Giao diện đăng nhập
 │   │   ├── RegisterPage.java          -> Giao diện đăng ký
 │   │   ├── HomePage.java              -> Giao diện trang chủ sau khi đăng nhập
-│   │   ├── AdminHomePage.java         -> Giao diện cho Admin (Toàn quyền)
-│   │   ├── UserHomePage.java          -> Giao diện cho người dùng (Chỉ xem)
-│   │   ├── BookManage.java            -> Giao diện quản lý sách
-│   │   ├── MainFrame.java             -> run gui
-│   │   ├── MemberManage.java          -> Giao diện quản lý thành viên
-│   │   ├── BorrowManage.java          -> Giao diện quản lý mượn trả
-│   │   └── StaffManage.java           -> Giao diện quản lý nhân viên
+│   │   ├── HomePageUser.java          -> Giao diện cho người dùng (Chỉ xem)
+│   │   ├── BookManager.java            -> Giao diện quản lý sách
+│   │   ├── MemberManager.java          -> Giao diện quản lý thành viên
+│   │   ├── BorrowManager.java          -> Giao diện quản lý mượn trả
+│   │   └── StaffManager.java           -> Giao diện quản lý nhân viên
 │   ├── controllers/                   -> Các bộ điều khiển logic của ứng dụng
-│   │   ├── LogicController.java       -> Bộ điều khiển logic phân quyền người dùng
 │   │   ├── BookController.java        -> Bộ điều khiển logic quản lý sách
 │   │   ├── HomePageLogic.java        -> Bộ điều khiển logic quản lí trang chủ
 │   │   ├── MemberController.java      -> Bộ điều khiển logic quản lý thành viên
@@ -204,7 +201,7 @@ library_management_app/
 - **Quản lý nhân viên (Admin):**
   - Thêm, sửa, xóa nhân viên quản lý thư viện.
   - Giao quyền cho nhân viên để quản lý sách, thành viên, mượn trả.
-
+    
 ### **Chức Năng Nâng Cao:**
 - **Tìm kiếm và lọc nâng cao:**
   - Người dùng có thể tìm kiếm sách theo tên, tác giả, thể loại, năm xuất bản.

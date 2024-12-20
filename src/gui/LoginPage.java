@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package gui;
+//import tests.HomePageAdmin;
 import controllers.AuthController;
 import javax.swing.JOptionPane;
 
@@ -260,7 +261,7 @@ public class LoginPage extends javax.swing.JFrame {
 //            String u = p[0];
             if (email.endsWith("@staff.com")) {
                 JOptionPane.showMessageDialog(null, "Welcome " + name + " !");
-                HomePageAdmin admin = new HomePageAdmin(name);
+                StaffManager admin = new StaffManager(name);
                 admin.setVisible(true);
                 admin.pack();
                 admin.setLocationRelativeTo(null);

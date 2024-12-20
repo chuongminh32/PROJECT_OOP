@@ -29,16 +29,15 @@ public class Borrow {
 
     // Print member information
     public String toString() {
-        return "ID: " + id
-                + ", Ten thanh vien: " + memberId.getName()
-                + ", Ten sach: " + bookId.getTitle()
-                + ", Ngay muon: " + borrowDate
-                + ", Ngay tra thuc te: " + returnDate
-                + ", Ngay tra du kien: " + dueDate
-                + ", Trang thai: " + status;
+        return "ID: " + getId()
+                + ", Ten thanh vien: " + getMemberId().getName()
+                + ", Ten sach: " + getBookId().getTitle()
+                + ", Ngay muon: " + getBorrowDate()
+                + ", Ngay tra thuc te: " + getReturnDate()
+                + ", Ngay tra du kien: " + getDueDate()
+                + ", Trang thai: " + getStatus();
     }
 
-//    // Getters and Setters
     /**
      * @return the id
      */
@@ -136,4 +135,5 @@ public class Borrow {
     public void setStatus(String status) {
         this.status = status;
     }
+
 }
